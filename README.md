@@ -15,7 +15,7 @@ Copia el archivo de snippets a la ruta de snippets de MySQL Workbench, haciendo 
 
 1. Clona o descarga el repositorio
 2. Asegúrate de tener **MySQL Workbench** instalado
-3. Ejecuta `activador.bat` como administrador
+3. Ejecuta "install.bat" como administrador
 4. Abre MySQL Workbench → los snippets estarán disponibles en el panel lateral
 
 ## Requisitos
