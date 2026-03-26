@@ -1,0 +1,2676 @@
+Categoria: Funciones de cadena | CONCAT
+  -- CONCAT: Une dos o más cadenas de texto
+  -- Sintaxis: CONCAT(str1, str2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Unir nombre y apellido
+  SELECT CONCAT('Juan', ' ', 'García') AS nombre_completo;
+ 
+  -- Ejemplo 2: Con columnas reales
+  SELECT CONCAT(nombre, ' ', apellido) AS nombre_completo
+  FROM cliente;
+ 
+  -- Ejemplo 3: Con más texto
+  SELECT CONCAT('Cliente: ', nombre, ' - Ciudad: ', ciudad) AS info
+  FROM cliente;
+
+Categoria: Funciones de cadena | CONCAT_WS
+  -- CONCAT_WS: Une cadenas con un separador entre ellas
+  -- Sintaxis: CONCAT_WS(separador, str1, str2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Separar con coma
+  SELECT CONCAT_WS(', ', 'Ana', 'Luis', 'Pedro') AS lista;
+ 
+  -- Ejemplo 2: Unir dirección
+  SELECT CONCAT_WS(' - ', calle, ciudad, pais) AS direccion
+  FROM cliente;
+ 
+  -- Ejemplo 3: Ignorar NULLs automáticamente
+  SELECT CONCAT_WS(', ', nombre, NULL, apellido) AS resultado
+  FROM cliente;
+
+Categoria: Funciones de cadena | LENGTH
+  -- LENGTH: Devuelve la longitud de la cadena en bytes
+  -- Sintaxis: LENGTH(str)
+  -- 
+ 
+  -- Ejemplo 1: Longitud de texto literal
+  SELECT LENGTH('MySQL') AS longitud;
+ 
+  -- Ejemplo 2: Longitud de columna
+  SELECT nombre, LENGTH(nombre) AS bytes
+  FROM cliente;
+ 
+  -- Ejemplo 3: Filtrar registros por longitud
+  SELECT nombre FROM cliente
+  WHERE LENGTH(nombre) > 10;
+
+Categoria: Funciones de cadena | CHAR_LENGTH
+  -- CHAR_LENGTH: Devuelve la longitud en número de caracteres
+  -- Sintaxis: CHAR_LENGTH(str)
+  -- 
+ 
+  -- Ejemplo 1: Contar caracteres con tildes
+  SELECT CHAR_LENGTH('Héroe') AS chars;
+ 
+  -- Ejemplo 2: Con columna de texto
+  SELECT nombre, CHAR_LENGTH(nombre) AS num_caracteres
+  FROM cliente;
+ 
+  -- Ejemplo 3: Filtrar por número de caracteres
+  SELECT nombre FROM producto
+  WHERE CHAR_LENGTH(nombre) BETWEEN 5 AND 15;
+
+Categoria: Funciones de cadena | UPPER
+  -- UPPER: Convierte la cadena a mayúsculas
+  -- Sintaxis: UPPER(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto literal
+  SELECT UPPER('hola mundo') AS resultado;
+ 
+  -- Ejemplo 2: Con columna
+  SELECT UPPER(nombre) AS nombre_mayus
+  FROM cliente;
+ 
+  -- Ejemplo 3: Comparación sin distinción de mayúsculas
+  SELECT * FROM cliente
+  WHERE UPPER(email) = UPPER('JUAN@GMAIL.COM');
+
+Categoria: Funciones de cadena | LOWER
+  -- LOWER: Convierte la cadena a minúsculas
+  -- Sintaxis: LOWER(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto literal
+  SELECT LOWER('HOLA MUNDO') AS resultado;
+ 
+  -- Ejemplo 2: Normalizar correos
+  SELECT LOWER(email) AS email_normalizado
+  FROM usuario;
+ 
+  -- Ejemplo 3: Comparación insensible a mayúsculas
+  SELECT * FROM usuario
+  WHERE LOWER(usuario) = 'admin';
+
+Categoria: Funciones de cadena | TRIM
+  -- TRIM: Elimina espacios al inicio y al final
+  -- Sintaxis: TRIM(str) | TRIM(LEADING|TRAILING|BOTH 'x' FROM str)
+  -- 
+ 
+  -- Ejemplo 1: Eliminar espacios de ambos lados
+  SELECT TRIM('  hola  ') AS resultado;
+ 
+  -- Ejemplo 2: Eliminar carácter específico al inicio
+  SELECT TRIM(LEADING '0' FROM '00123') AS resultado;
+ 
+  -- Ejemplo 3: Limpiar datos de columna
+  SELECT TRIM(nombre) AS nombre_limpio
+  FROM cliente;
+
+Categoria: Funciones de cadena | LTRIM
+  -- LTRIM: Elimina espacios al inicio (lado izquierdo)
+  -- Sintaxis: LTRIM(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto literal
+  SELECT LTRIM('   hola') AS resultado;
+ 
+  -- Ejemplo 2: Limpiar columna
+  SELECT LTRIM(descripcion) AS desc_limpia
+  FROM producto;
+ 
+  -- Ejemplo 3: Combinar con RTRIM
+  SELECT LTRIM(RTRIM(nombre)) AS nombre_limpio
+  FROM cliente;
+
+Categoria: Funciones de cadena | RTRIM
+  -- RTRIM: Elimina espacios al final (lado derecho)
+  -- Sintaxis: RTRIM(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto literal
+  SELECT RTRIM('hola   ') AS resultado;
+ 
+  -- Ejemplo 2: Limpiar columna
+  SELECT RTRIM(codigo) AS codigo_limpio
+  FROM producto;
+ 
+  -- Ejemplo 3: Limpiar datos con UPDATE
+  UPDATE cliente SET nombre = RTRIM(nombre);
+
+Categoria: Funciones de cadena | SUBSTRING
+  -- SUBSTRING: Extrae una subcadena desde una posición
+  -- Sintaxis: SUBSTRING(str, pos) | SUBSTRING(str, pos, longitud)
+  -- 
+ 
+  -- Ejemplo 1: Desde posición 3 hasta el final
+  SELECT SUBSTRING('MySQL', 3) AS resultado;
+ 
+  -- Ejemplo 2: Con longitud definida
+  SELECT SUBSTRING('MySQL Database', 7, 8) AS resultado;
+ 
+  -- Ejemplo 3: Extraer año de una fecha en texto
+  SELECT SUBSTRING(fecha_texto, 1, 4) AS anio
+  FROM pedido;
+
+Categoria: Funciones de cadena | LEFT
+  -- LEFT: Devuelve los primeros N caracteres de la cadena
+  -- Sintaxis: LEFT(str, N)
+  -- 
+ 
+  -- Ejemplo 1: Primeros 2 caracteres
+  SELECT LEFT('MySQL', 2) AS resultado;
+ 
+  -- Ejemplo 2: Inicial del nombre
+  SELECT LEFT(nombre, 1) AS inicial
+  FROM cliente;
+ 
+  -- Ejemplo 3: Código corto de producto
+  SELECT LEFT(codigo_producto, 4) AS cod_corto
+  FROM producto;
+
+Categoria: Funciones de cadena | RIGHT
+  -- RIGHT: Devuelve los últimos N caracteres de la cadena
+  -- Sintaxis: RIGHT(str, N)
+  -- 
+ 
+  -- Ejemplo 1: Últimos 3 caracteres
+  SELECT RIGHT('MySQL', 3) AS resultado;
+ 
+  -- Ejemplo 2: Extensión de archivo
+  SELECT nombre_archivo, RIGHT(nombre_archivo, 3) AS extension
+  FROM archivo;
+ 
+  -- Ejemplo 3: Últimos 4 dígitos de tarjeta
+  SELECT RIGHT(numero_tarjeta, 4) AS ultimos_digitos
+  FROM pago;
+
+Categoria: Funciones de cadena | REPLACE
+  -- REPLACE: Reemplaza todas las ocurrencias de una subcadena
+  -- Sintaxis: REPLACE(str, desde, hasta)
+  -- 
+ 
+  -- Ejemplo 1: Reemplazar palabra
+  SELECT REPLACE('Hola Mundo', 'Mundo', 'SQL') AS resultado;
+ 
+  -- Ejemplo 2: Eliminar caracteres no deseados
+  SELECT REPLACE(telefono, '-', '') AS tel_limpio
+  FROM cliente;
+ 
+  -- Ejemplo 3: Reemplazar en UPDATE masivo
+  UPDATE producto SET descripcion = REPLACE(descripcion, 'viejo', 'nuevo');
+
+Categoria: Funciones de cadena | INSTR
+  -- INSTR: Devuelve la posición de la primera ocurrencia de una subcadena
+  -- Sintaxis: INSTR(str, subcadena)
+  -- 
+ 
+  -- Ejemplo 1: Posición de subcadena
+  SELECT INSTR('MySQL Database', 'Database') AS posicion;
+ 
+  -- Ejemplo 2: Verificar si contiene texto
+  SELECT nombre FROM cliente
+  WHERE INSTR(email, '@gmail') > 0;
+ 
+  -- Ejemplo 3: Posición del arroba en email
+  SELECT email, INSTR(email, '@') AS pos_arroba
+  FROM usuario;
+
+Categoria: Funciones de cadena | LOCATE
+  -- LOCATE: Devuelve la posición de una subcadena con offset opcional
+  -- Sintaxis: LOCATE(subcadena, str) | LOCATE(subcadena, str, inicio)
+  -- 
+ 
+  -- Ejemplo 1: Sin offset
+  SELECT LOCATE('o', 'Hola Mundo') AS posicion;
+ 
+  -- Ejemplo 2: Con offset (busca desde posición 3)
+  SELECT LOCATE('o', 'Hola Mundo', 3) AS posicion;
+ 
+  -- Ejemplo 3: Verificar existencia de dominio corporativo
+  SELECT * FROM usuario
+  WHERE LOCATE('empresa.com', email) > 0;
+
+Categoria: Funciones de cadena | LPAD
+  -- LPAD: Rellena la cadena por la izquierda hasta longitud N
+  -- Sintaxis: LPAD(str, longitud, relleno)
+  -- 
+ 
+  -- Ejemplo 1: Rellenar con ceros
+  SELECT LPAD('5', 4, '0') AS resultado;
+ 
+  -- Ejemplo 2: Formatear ID de producto
+  SELECT LPAD(id, 6, '0') AS codigo_formateado
+  FROM producto;
+ 
+  -- Ejemplo 3: Alinear columna de texto
+  SELECT LPAD(nombre, 20, ' ') AS nombre_alineado
+  FROM cliente;
+
+Categoria: Funciones de cadena | RPAD
+  -- RPAD: Rellena la cadena por la derecha hasta longitud N
+  -- Sintaxis: RPAD(str, longitud, relleno)
+  -- 
+ 
+  -- Ejemplo 1: Rellenar con puntos
+  SELECT RPAD('MySQL', 10, '.') AS resultado;
+ 
+  -- Ejemplo 2: Columna de ancho fijo
+  SELECT RPAD(nombre, 30, ' ') AS col_fija
+  FROM empleado;
+ 
+  -- Ejemplo 3: Crear separador dinámico
+  SELECT RPAD('', 40, '-') AS separador;
+
+Categoria: Funciones de cadena | REPEAT
+  -- REPEAT: Repite una cadena N veces
+  -- Sintaxis: REPEAT(str, N)
+  -- 
+ 
+  -- Ejemplo 1: Repetir texto
+  SELECT REPEAT('ab', 3) AS resultado;
+ 
+  -- Ejemplo 2: Crear línea separadora
+  SELECT REPEAT('-', 30) AS linea;
+ 
+  -- Ejemplo 3: Barra de progreso simple
+  SELECT REPEAT('█', nivel) AS barra
+  FROM estadistica;
+
+Categoria: Funciones de cadena | REVERSE
+  -- REVERSE: Invierte el orden de los caracteres de la cadena
+  -- Sintaxis: REVERSE(str)
+  -- 
+ 
+  -- Ejemplo 1: Invertir texto
+  SELECT REVERSE('MySQL') AS resultado;
+ 
+  -- Ejemplo 2: Detectar palíndromos
+  SELECT nombre FROM palabras
+  WHERE nombre = REVERSE(nombre);
+ 
+  -- Ejemplo 3: Invertir código de columna
+  SELECT REVERSE(codigo) AS cod_invertido
+  FROM producto;
+
+Categoria: Funciones de cadena | SPACE
+  -- SPACE: Devuelve una cadena formada por N espacios
+  -- Sintaxis: SPACE(N)
+  -- 
+ 
+  -- Ejemplo 1: Insertar espacios entre caracteres
+  SELECT CONCAT('A', SPACE(5), 'B') AS resultado;
+ 
+  -- Ejemplo 2: Indentación dinámica por nivel
+  SELECT CONCAT(SPACE(nivel * 2), nombre) AS arbol
+  FROM categoria;
+ 
+  -- Ejemplo 3: Alinear columnas en salida
+  SELECT CONCAT(nombre, SPACE(20 - CHAR_LENGTH(nombre)), precio) AS fila
+  FROM producto;
+
+Categoria: Funciones de cadena | FORMAT
+  -- FORMAT: Formatea un número con separadores de miles como texto
+  -- Sintaxis: FORMAT(numero, decimales)
+  -- 
+ 
+  -- Ejemplo 1: Formato con 2 decimales
+  SELECT FORMAT(1234567.891, 2) AS resultado;
+ 
+  -- Ejemplo 2: Precio formateado para mostrar
+  SELECT nombre, FORMAT(precio, 2) AS precio_formato
+  FROM producto;
+ 
+  -- Ejemplo 3: Total sin decimales
+  SELECT FORMAT(total, 0) AS total_formato
+  FROM pedido;
+
+Categoria: Funciones de cadena | STRCMP
+  -- STRCMP: Compara dos cadenas (0 = iguales, -1 o 1 = distintas)
+  -- Sintaxis: STRCMP(str1, str2)
+  -- 
+ 
+  -- Ejemplo 1: Cadenas iguales
+  SELECT STRCMP('abc', 'abc') AS resultado;
+ 
+  -- Ejemplo 2: Primera menor que la segunda
+  SELECT STRCMP('abc', 'xyz') AS resultado;
+ 
+  -- Ejemplo 3: Verificar igualdad de categoría
+  SELECT * FROM categoria
+  WHERE STRCMP(nombre, 'Electrónica') = 0;
+
+Categoria: Funciones de cadena | FIELD
+  -- FIELD: Devuelve la posición de un valor en una lista dada
+  -- Sintaxis: FIELD(valor, val1, val2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Posición de 'b'
+  SELECT FIELD('b', 'a', 'b', 'c') AS resultado;
+ 
+  -- Ejemplo 2: Ordenar por estado personalizado
+  SELECT * FROM pedido
+  ORDER BY FIELD(estado, 'pendiente', 'procesando', 'enviado', 'entregado');
+ 
+  -- Ejemplo 3: Devuelve 0 si el valor no existe en la lista
+  SELECT FIELD('z', 'a', 'b', 'c') AS resultado;
+
+Categoria: Funciones de cadena | FIND_IN_SET
+  -- FIND_IN_SET: Posición de un valor en una lista separada por comas
+  -- Sintaxis: FIND_IN_SET(valor, 'val1,val2,val3')
+  -- 
+ 
+  -- Ejemplo 1: Posición en lista CSV
+  SELECT FIND_IN_SET('b', 'a,b,c') AS resultado;
+ 
+  -- Ejemplo 2: Filtrar por permiso guardado como CSV
+  SELECT * FROM usuario
+  WHERE FIND_IN_SET('admin', permisos) > 0;
+ 
+  -- Ejemplo 3: Verificar etiqueta múltiple de producto
+  SELECT * FROM producto
+  WHERE FIND_IN_SET('oferta', etiquetas) > 0;
+
+Categoria: Funciones de cadena | ELT
+  -- ELT: Devuelve el N-ésimo elemento de una lista de cadenas
+  -- Sintaxis: ELT(N, str1, str2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Segundo elemento
+  SELECT ELT(2, 'lunes', 'martes', 'miércoles') AS resultado;
+ 
+  -- Ejemplo 2: Nombre del mes actual
+  SELECT ELT(MONTH(NOW()),
+    'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+  ) AS mes_actual;
+ 
+  -- Ejemplo 3: Estado legible desde número
+  SELECT ELT(estado, 'Inactivo', 'Activo', 'Suspendido') AS estado_texto
+  FROM usuario;
+
+Categoria: Funciones de cadena | INSERT
+  -- INSERT: Inserta una cadena dentro de otra en una posición
+  -- Sintaxis: INSERT(str, posicion, longitud, nueva_cadena)
+  -- 
+ 
+  -- Ejemplo 1: Reemplazar 3 caracteres desde posición 3
+  SELECT INSERT('MySQL', 3, 3, 'XYZ') AS resultado;
+ 
+  -- Ejemplo 2: Enmascarar número de tarjeta
+  SELECT INSERT(numero_tarjeta, 5, 8, '********') AS enmascarado
+  FROM pago;
+ 
+  -- Ejemplo 3: Sustituir segmento de texto
+  SELECT INSERT('Hola Amigo', 6, 5, 'Mundo') AS resultado;
+
+Categoria: Funciones de cadena | ASCII
+  -- ASCII: Devuelve el código ASCII del primer carácter
+  -- Sintaxis: ASCII(str)
+  -- 
+ 
+  -- Ejemplo 1: Código ASCII de 'A'
+  SELECT ASCII('A') AS resultado;
+ 
+  -- Ejemplo 2: Código del primer carácter de cada nombre
+  SELECT nombre, ASCII(nombre) AS primer_ascii
+  FROM cliente;
+ 
+  -- Ejemplo 3: Filtrar nombres que empiecen con mayúscula
+  SELECT nombre FROM cliente
+  WHERE ASCII(nombre) BETWEEN 65 AND 90;
+
+Categoria: Funciones de cadena | CHAR
+  -- CHAR: Devuelve el carácter correspondiente al código ASCII
+  -- Sintaxis: CHAR(N, ...)
+  -- 
+ 
+  -- Ejemplo 1: Carácter del código 65
+  SELECT CHAR(65) AS resultado;
+ 
+  -- Ejemplo 2: Construir palabra desde códigos
+  SELECT CHAR(72, 111, 108, 97) AS resultado;
+ 
+  -- Ejemplo 3: Separar columnas con tabulación
+  SELECT CONCAT(nombre, CHAR(9), apellido) AS tab_separado
+  FROM cliente;
+
+Categoria: Funciones de cadena | HEX
+  -- HEX: Convierte un valor a su representación hexadecimal
+  -- Sintaxis: HEX(str_o_numero)
+  -- 
+ 
+  -- Ejemplo 1: Texto a hexadecimal
+  SELECT HEX('A') AS resultado;
+ 
+  -- Ejemplo 2: Número a hexadecimal
+  SELECT HEX(255) AS resultado;
+ 
+  -- Ejemplo 3: Ver ID en formato hex
+  SELECT HEX(id) AS id_hex
+  FROM sesion;
+
+Categoria: Funciones de cadena | UNHEX
+  -- UNHEX: Convierte una cadena hexadecimal a texto
+  -- Sintaxis: UNHEX(str_hex)
+  -- 
+ 
+  -- Ejemplo 1: Hex a texto
+  SELECT UNHEX('41') AS resultado;
+ 
+  -- Ejemplo 2: Decodificar valor almacenado
+  SELECT UNHEX(valor_hex) AS valor_real
+  FROM configuracion;
+ 
+  -- Ejemplo 3: Convertir cadena hex completa
+  SELECT UNHEX('486F6C61') AS resultado;
+
+Categoria: Funciones de cadena | QUOTE
+  -- QUOTE: Escapa una cadena para uso seguro en consultas SQL
+  -- Sintaxis: QUOTE(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto con apóstrofe
+  SELECT QUOTE("it's fine") AS resultado;
+ 
+  -- Ejemplo 2: Preparar valor para consulta dinámica
+  SELECT QUOTE(nombre) AS nombre_escapado
+  FROM cliente;
+ 
+  -- Ejemplo 3: NULL como literal
+  SELECT QUOTE(NULL) AS resultado;
+
+Categoria: Funciones de cadena | SOUNDEX
+  -- SOUNDEX: Devuelve el código fonético de una cadena
+  -- Sintaxis: SOUNDEX(str)
+  -- 
+ 
+  -- Ejemplo 1: Código fonético de nombre
+  SELECT SOUNDEX('Robert') AS resultado;
+ 
+  -- Ejemplo 2: Buscar nombres similares fonéticamente
+  SELECT * FROM cliente
+  WHERE SOUNDEX(nombre) = SOUNDEX('Robbert');
+ 
+  -- Ejemplo 3: Comparar si dos nombres suenan igual
+  SELECT SOUNDEX('Juan') = SOUNDEX('Wan') AS suena_igual;
+
+Categoria: Funciones de expresiones regulares | REGEXP
+  -- REGEXP: Comprueba si una cadena cumple una expresión regular
+  -- Sintaxis: str REGEXP 'patron' | str RLIKE 'patron'
+  -- 
+ 
+  -- Ejemplo 1: Comprobar si empieza con 'My'
+  SELECT 'MySQL' REGEXP '^My' AS resultado;
+ 
+  -- Ejemplo 2: Validar formato de email
+  SELECT email FROM usuario
+  WHERE email REGEXP '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+ 
+  -- Ejemplo 3: Filtrar nombres con solo letras
+  SELECT * FROM cliente
+  WHERE nombre REGEXP '^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$';
+
+Categoria: Funciones de expresiones regulares | REGEXP_REPLACE
+  -- REGEXP_REPLACE: Reemplaza ocurrencias que coincidan con un patrón
+  -- Sintaxis: REGEXP_REPLACE(str, patron, reemplazo)
+  -- Disponible desde: MySQL 8.0
+  -- 
+ 
+  -- Ejemplo 1: Eliminar todos los números
+  SELECT REGEXP_REPLACE('abc123def', '[0-9]', '') AS resultado;
+ 
+  -- Ejemplo 2: Reducir espacios múltiples a uno
+  SELECT REGEXP_REPLACE(descripcion, ' {2,}', ' ') AS limpio
+  FROM producto;
+ 
+  -- Ejemplo 3: Eliminar caracteres especiales del nombre
+  SELECT REGEXP_REPLACE(nombre, '[^a-zA-Z ]', '') AS nombre_limpio
+  FROM cliente;
+
+Categoria: Funciones de expresiones regulares | REGEXP_SUBSTR
+  -- REGEXP_SUBSTR: Extrae la primera subcadena que coincida con el patrón
+  -- Sintaxis: REGEXP_SUBSTR(str, patron)
+  -- Disponible desde: MySQL 8.0
+  -- 
+ 
+  -- Ejemplo 1: Extraer número de texto
+  SELECT REGEXP_SUBSTR('Precio: 99.90 EUR', '[0-9.]+') AS resultado;
+ 
+  -- Ejemplo 2: Extraer dominio de email
+  SELECT REGEXP_SUBSTR(email, '@(.+)$') AS dominio
+  FROM usuario;
+ 
+  -- Ejemplo 3: Extraer código postal de dirección
+  SELECT REGEXP_SUBSTR(direccion, '[0-9]{5}') AS codigo_postal
+  FROM cliente;
+
+Categoria: Funciones de expresiones regulares | REGEXP_INSTR
+  -- REGEXP_INSTR: Devuelve la posición de la primera coincidencia del patrón
+  -- Sintaxis: REGEXP_INSTR(str, patron)
+  -- Disponible desde: MySQL 8.0
+  -- 
+ 
+  -- Ejemplo 1: Posición del primer dígito
+  SELECT REGEXP_INSTR('abc123', '[0-9]') AS resultado;
+ 
+  -- Ejemplo 2: Posición del arroba en email
+  SELECT REGEXP_INSTR(email, '@') AS pos_arroba
+  FROM usuario;
+ 
+  -- Ejemplo 3: Detectar nombres con números
+  SELECT nombre FROM cliente
+  WHERE REGEXP_INSTR(nombre, '[0-9]') > 0;
+
+Categoria: Funciones de expresiones regulares | REGEXP_LIKE
+  -- REGEXP_LIKE: Devuelve 1 si la cadena coincide con el patrón
+  -- Sintaxis: REGEXP_LIKE(str, patron)
+  -- Disponible desde: MySQL 8.0
+  -- 
+ 
+  -- Ejemplo 1: Verificar solo letras
+  SELECT REGEXP_LIKE('HolaMundo', '^[a-zA-Z]+$') AS resultado;
+ 
+  -- Ejemplo 2: Validar teléfono de 9 dígitos
+  SELECT * FROM cliente
+  WHERE REGEXP_LIKE(telefono, '^[0-9]{9}$');
+ 
+  -- Ejemplo 3: Validar código postal
+  SELECT * FROM cliente
+  WHERE REGEXP_LIKE(codigo_postal, '^[0-9]{5}$');
+
+Categoria: Funciones numéricas | ABS
+  -- ABS: Devuelve el valor absoluto de un número
+  -- Sintaxis: ABS(numero)
+  -- 
+ 
+  -- Ejemplo 1: Valor absoluto de número negativo
+  SELECT ABS(-42) AS resultado;
+ 
+  -- Ejemplo 2: Diferencia siempre positiva entre dos precios
+  SELECT ABS(precio_venta - precio_costo) AS margen
+  FROM producto;
+ 
+  -- Ejemplo 3: Registros con desviación mayor a 10
+  SELECT * FROM medicion
+  WHERE ABS(valor - objetivo) > 10;
+
+Categoria: Funciones numéricas | CEIL
+  -- CEIL: Redondea hacia arriba al entero más cercano
+  -- Sintaxis: CEIL(numero) | CEILING(numero)
+  -- 
+ 
+  -- Ejemplo 1: Redondeo hacia arriba
+  SELECT CEIL(4.1) AS resultado;
+ 
+  -- Ejemplo 2: Calcular páginas necesarias para paginación
+  SELECT CEIL(total_registros / 10.0) AS paginas
+  FROM estadistica;
+ 
+  -- Ejemplo 3: Precio redondeado al entero superior
+  SELECT nombre, CEIL(precio) AS precio_techo
+  FROM producto;
+
+Categoria: Funciones numéricas | FLOOR
+  -- FLOOR: Redondea hacia abajo al entero más cercano
+  -- Sintaxis: FLOOR(numero)
+  -- 
+ 
+  -- Ejemplo 1: Redondeo hacia abajo
+  SELECT FLOOR(4.9) AS resultado;
+ 
+  -- Ejemplo 2: Edad en años completos
+  SELECT FLOOR(DATEDIFF(NOW(), fecha_nacimiento) / 365.25) AS edad
+  FROM cliente;
+ 
+  -- Ejemplo 3: Paquetes completos disponibles en stock
+  SELECT FLOOR(stock / unidades_paquete) AS paquetes_completos
+  FROM inventario;
+
+Categoria: Funciones numéricas | ROUND
+  -- ROUND: Redondea un número a N decimales
+  -- Sintaxis: ROUND(numero, decimales)
+  -- 
+ 
+  -- Ejemplo 1: Dos decimales
+  SELECT ROUND(3.14159, 2) AS resultado;
+ 
+  -- Ejemplo 2: Precio redondeado a entero
+  SELECT ROUND(precio, 0) AS precio_entero
+  FROM producto;
+ 
+  -- Ejemplo 3: Porcentaje con un decimal
+  SELECT ROUND((ventas / meta) * 100, 1) AS porcentaje
+  FROM objetivo;
+
+Categoria: Funciones numéricas | TRUNCATE
+  -- TRUNCATE: Trunca un número a N decimales sin redondear
+  -- Sintaxis: TRUNCATE(numero, decimales)
+  -- 
+ 
+  -- Ejemplo 1: Truncar sin redondear
+  SELECT TRUNCATE(3.999, 2) AS resultado;
+ 
+  -- Ejemplo 2: Obtener solo la parte entera
+  SELECT TRUNCATE(precio, 0) AS parte_entera
+  FROM producto;
+ 
+  -- Ejemplo 3: Diferencia entre ROUND y TRUNCATE
+  SELECT ROUND(4.567, 1) AS redondeado, TRUNCATE(4.567, 1) AS truncado;
+
+Categoria: Funciones numéricas | MOD
+  -- MOD: Devuelve el resto de una división (módulo)
+  -- Sintaxis: MOD(dividendo, divisor) | dividendo MOD divisor
+  -- 
+ 
+  -- Ejemplo 1: Resto de 10 entre 3
+  SELECT MOD(10, 3) AS resultado;
+ 
+  -- Ejemplo 2: Filtrar números pares
+  SELECT * FROM numero
+  WHERE MOD(valor, 2) = 0;
+ 
+  -- Ejemplo 3: Asignar registros a grupos de 5
+  SELECT id, MOD(id, 5) AS grupo
+  FROM pedido;
+
+Categoria: Funciones numéricas | DIV
+  -- DIV: División entera, descarta la parte decimal
+  -- Sintaxis: dividendo DIV divisor
+  -- 
+ 
+  -- Ejemplo 1: División entera
+  SELECT 10 DIV 3 AS resultado;
+ 
+  -- Ejemplo 2: Páginas completas sin decimales
+  SELECT total DIV 10 AS paginas_completas
+  FROM lista;
+ 
+  -- Ejemplo 3: Minutos completos a partir de segundos
+  SELECT segundos DIV 60 AS minutos_completos
+  FROM duracion;
+
+Categoria: Funciones numéricas | POW
+  -- POW: Eleva un número a una potencia
+  -- Sintaxis: POW(base, exponente) | POWER(base, exponente)
+  -- 
+ 
+  -- Ejemplo 1: 2 elevado a 10
+  SELECT POW(2, 10) AS resultado;
+ 
+  -- Ejemplo 2: Área de un círculo
+  SELECT POW(radio, 2) * PI() AS area
+  FROM circulo;
+ 
+  -- Ejemplo 3: Cálculo de interés compuesto
+  SELECT capital * POW(1 + tasa, anios) AS monto_final
+  FROM inversion;
+
+Categoria: Funciones numéricas | SQRT
+  -- SQRT: Devuelve la raíz cuadrada de un número
+  -- Sintaxis: SQRT(numero)
+  -- 
+ 
+  -- Ejemplo 1: Raíz cuadrada de 16
+  SELECT SQRT(16) AS resultado;
+ 
+  -- Ejemplo 2: Distancia euclidiana entre dos puntos
+  SELECT SQRT(POW(x2 - x1, 2) + POW(y2 - y1, 2)) AS distancia
+  FROM punto;
+ 
+  -- Ejemplo 3: Desviación estándar aproximada
+  SELECT SQRT(varianza) AS desviacion
+  FROM estadistica;
+
+Categoria: Funciones numéricas | EXP
+  -- EXP: Devuelve e elevado a la potencia N
+  -- Sintaxis: EXP(N)
+  -- 
+ 
+  -- Ejemplo 1: Valor de e
+  SELECT EXP(1) AS resultado;
+ 
+  -- Ejemplo 2: Factor de crecimiento exponencial
+  SELECT EXP(tasa * tiempo) AS factor_crecimiento
+  FROM modelo;
+ 
+  -- Ejemplo 3: e elevado a 0 siempre es 1
+  SELECT EXP(0) AS resultado;
+
+Categoria: Funciones numéricas | LOG
+  -- LOG: Logaritmo natural en base e
+  -- Sintaxis: LOG(numero) | LOG(base, numero)
+  -- 
+ 
+  -- Ejemplo 1: Logaritmo natural
+  SELECT LOG(EXP(1)) AS resultado;
+ 
+  -- Ejemplo 2: Logaritmo con base personalizada
+  SELECT LOG(2, 8) AS resultado;
+ 
+  -- Ejemplo 3: Escala logarítmica de visitas
+  SELECT nombre, LOG(visitas) AS escala_log
+  FROM pagina;
+
+Categoria: Funciones numéricas | LOG2
+  -- 
+  -- LOG2: Logaritmo en base 2
+  -- Sintaxis: LOG2(numero)
+  -- 
+ 
+  -- Ejemplo 1: Logaritmo base 2 de 8
+  SELECT LOG2(8) AS resultado;
+ 
+  -- Ejemplo 2: Bits necesarios para representar N opciones
+  SELECT CEIL(LOG2(total_opciones)) AS bits_necesarios
+  FROM configuracion;
+ 
+  -- Ejemplo 3: Escala de tamaño de archivos
+  SELECT nombre, LOG2(tamano_bytes) AS escala
+  FROM archivo;
+
+Categoria: Funciones numéricas | LOG10
+  -- 
+  -- LOG10: Logaritmo en base 10
+  -- Sintaxis: LOG10(numero)
+  -- 
+ 
+  -- Ejemplo 1: Logaritmo base 10 de 1000
+  SELECT LOG10(1000) AS resultado;
+ 
+  -- Ejemplo 2: Magnitud de población
+  SELECT nombre, LOG10(poblacion) AS magnitud
+  FROM ciudad;
+ 
+  -- Ejemplo 3: Escala de intensidad
+  SELECT LOG10(intensidad) AS escala
+  FROM medicion;
+
+Categoria: Funciones numéricas | PI
+  -- PI: Devuelve el valor de π (pi)
+  -- Sintaxis: PI()
+  -- 
+ 
+  -- Ejemplo 1: Valor de PI
+  SELECT PI() AS resultado;
+ 
+  -- Ejemplo 2: Área del círculo
+  SELECT radio, PI() * POW(radio, 2) AS area
+  FROM circulo;
+ 
+  -- Ejemplo 3: Circunferencia
+  SELECT radio, 2 * PI() * radio AS circunferencia
+  FROM circulo;
+
+Categoria: Funciones numéricas | RAND
+  -- RAND: Devuelve un número decimal aleatorio entre 0 y 1
+  -- Sintaxis: RAND() | RAND(semilla)
+  -- 
+ 
+  -- Ejemplo 1: Número aleatorio
+  SELECT RAND() AS resultado;
+ 
+  -- Ejemplo 2: Número entero aleatorio entre 1 y 100
+  SELECT FLOOR(RAND() * 100) + 1 AS aleatorio;
+ 
+  -- Ejemplo 3: Seleccionar 5 filas aleatorias
+  SELECT * FROM cliente
+  ORDER BY RAND()
+  LIMIT 5;
+
+Categoria: Funciones numéricas | SIGN
+  -- SIGN: Devuelve -1, 0 o 1 según el signo del número
+  -- Sintaxis: SIGN(numero)
+  -- 
+ 
+  -- Ejemplo 1: Signo de distintos valores
+  SELECT SIGN(-5) AS negativo, SIGN(0) AS cero, SIGN(3) AS positivo;
+ 
+  -- Ejemplo 2: Clasificar ganancias o pérdidas
+  SELECT nombre, SIGN(resultado) AS tipo
+  FROM balance;
+ 
+  -- Ejemplo 3: Filtrar solo valores positivos
+  SELECT * FROM transaccion
+  WHERE SIGN(monto) = 1;
+
+Categoria: Funciones numéricas | GREATEST
+  -- GREATEST: Devuelve el mayor valor de una lista de expresiones
+  -- Sintaxis: GREATEST(val1, val2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Mayor de tres números
+  SELECT GREATEST(3, 7, 2, 9, 1) AS resultado;
+ 
+  -- Ejemplo 2: Precio máximo entre variantes de producto
+  SELECT nombre, GREATEST(precio_a, precio_b, precio_c) AS precio_max
+  FROM producto;
+ 
+  -- Ejemplo 3: Fecha más reciente entre dos columnas
+  SELECT GREATEST(fecha_creacion, fecha_modificacion) AS ultima_accion
+  FROM registro;
+
+Categoria: Funciones numéricas | LEAST
+  -- LEAST: Devuelve el menor valor de una lista de expresiones
+  -- Sintaxis: LEAST(val1, val2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Menor de tres números
+  SELECT LEAST(3, 7, 2, 9, 1) AS resultado;
+ 
+  -- Ejemplo 2: Precio mínimo entre variantes de producto
+  SELECT nombre, LEAST(precio_a, precio_b, precio_c) AS precio_min
+  FROM producto;
+ 
+  -- Ejemplo 3: Fecha más antigua entre dos columnas
+  SELECT LEAST(fecha_registro, fecha_primer_pedido) AS primera_actividad
+  FROM cliente;
+
+Categoria: Funciones numéricas | DEGREES
+  -- DEGREES: Convierte un valor de radianes a grados
+  -- Sintaxis: DEGREES(radianes)
+  -- 
+ 
+  -- Ejemplo 1: PI radianes equivale a 180 grados
+  SELECT DEGREES(PI()) AS resultado;
+ 
+  -- Ejemplo 2: Convertir columna de radianes a grados
+  SELECT angulo_rad, DEGREES(angulo_rad) AS angulo_grados
+  FROM medicion;
+ 
+  -- Ejemplo 3: Media vuelta en grados
+  SELECT DEGREES(PI() / 2) AS resultado;
+
+Categoria: Funciones numéricas | RADIANS
+  -- RADIANS: Convierte un valor de grados a radianes
+  -- Sintaxis: RADIANS(grados)
+  -- 
+ 
+  -- Ejemplo 1: 180 grados en radianes
+  SELECT RADIANS(180) AS resultado;
+ 
+  -- Ejemplo 2: Calcular seno de 30 grados
+  SELECT SIN(RADIANS(30)) AS seno_30;
+ 
+  -- Ejemplo 3: Convertir columna de grados a radianes
+  SELECT angulo_grados, RADIANS(angulo_grados) AS angulo_rad
+  FROM medicion;
+
+Categoria: Funciones numéricas | SIN
+  -- SIN: Devuelve el seno de un ángulo en radianes
+  -- Sintaxis: SIN(x)
+  -- 
+ 
+  -- Ejemplo 1: Seno de 90 grados
+  SELECT SIN(RADIANS(90)) AS resultado;
+ 
+  -- Ejemplo 2: Seno de columna en radianes
+  SELECT angulo, SIN(angulo) AS seno
+  FROM vector;
+ 
+  -- Ejemplo 3: Verificar identidad trigonométrica
+  SELECT POW(SIN(RADIANS(30)), 2) + POW(COS(RADIANS(30)), 2) AS debe_ser_1;
+
+Categoria: Funciones numéricas | COS
+  -- COS: Devuelve el coseno de un ángulo en radianes
+  -- Sintaxis: COS(x)
+  -- 
+ 
+  -- Ejemplo 1: Coseno de 0 grados
+  SELECT COS(RADIANS(0)) AS resultado;
+ 
+  -- Ejemplo 2: Coseno de columna en radianes
+  SELECT angulo, COS(angulo) AS coseno
+  FROM vector;
+ 
+  -- Ejemplo 3: Componente horizontal de un vector
+  SELECT magnitud * COS(RADIANS(angulo)) AS componente_x
+  FROM vector;
+
+Categoria: Funciones numéricas | TAN
+  -- TAN: Devuelve la tangente de un ángulo en radianes
+  -- Sintaxis: TAN(x)
+  -- 
+ 
+  -- Ejemplo 1: Tangente de 45 grados
+  SELECT TAN(RADIANS(45)) AS resultado;
+ 
+  -- Ejemplo 2: Pendiente de una recta
+  SELECT TAN(RADIANS(angulo_grados)) AS pendiente
+  FROM recta;
+ 
+  -- Ejemplo 3: Calcular altura desde ángulo y distancia
+  SELECT distancia * TAN(RADIANS(angulo)) AS altura
+  FROM triangulo;
+
+Categoria: Funciones de fecha y hora | NOW
+  -- NOW: Devuelve la fecha y hora actuales
+  -- Sintaxis: NOW()
+  -- 
+ 
+  -- Ejemplo 1: Fecha y hora actual
+  SELECT NOW() AS fecha_hora;
+ 
+  -- Ejemplo 2: Insertar con fecha automática
+  INSERT INTO pedido (cliente_id, fecha) VALUES (1, NOW());
+ 
+  -- Ejemplo 3: Registros del último día
+  SELECT * FROM pedido
+  WHERE fecha >= NOW() - INTERVAL 1 DAY;
+
+Categoria: Funciones de fecha y hora | CURDATE
+  -- CURDATE: Devuelve la fecha actual sin la hora
+  -- Sintaxis: CURDATE() | CURRENT_DATE()
+  -- 
+ 
+  -- Ejemplo 1: Fecha de hoy
+  SELECT CURDATE() AS hoy;
+ 
+  -- Ejemplo 2: Pedidos realizados hoy
+  SELECT * FROM pedido
+  WHERE DATE(fecha) = CURDATE();
+ 
+  -- Ejemplo 3: Días hasta vencimiento de contrato
+  SELECT nombre, DATEDIFF(fecha_vencimiento, CURDATE()) AS dias_restantes
+  FROM contrato;
+
+Categoria: Funciones de fecha y hora | CURTIME
+  -- CURTIME: Devuelve la hora actual sin la fecha
+  -- Sintaxis: CURTIME() | CURRENT_TIME()
+  -- 
+ 
+  -- Ejemplo 1: Hora actual
+  SELECT CURTIME() AS hora_actual;
+ 
+  -- Ejemplo 2: Accesos realizados por la mañana
+  SELECT * FROM acceso
+  WHERE TIME(fecha_hora) < '12:00:00';
+ 
+  -- Ejemplo 3: Registrar hora de entrada
+  INSERT INTO asistencia (empleado_id, hora_entrada) VALUES (5, CURTIME());
+
+Categoria: Funciones de fecha y hora | DATE
+  -- DATE: Extrae la parte de fecha de un valor DATETIME
+  -- Sintaxis: DATE(expresion)
+  -- 
+ 
+  -- Ejemplo 1: Extraer solo la fecha de un datetime
+  SELECT DATE(NOW()) AS solo_fecha;
+ 
+  -- Ejemplo 2: Agrupar pedidos por día
+  SELECT DATE(fecha), COUNT(*) AS pedidos_dia
+  FROM pedido
+  GROUP BY DATE(fecha);
+ 
+  -- Ejemplo 3: Comparar solo la fecha ignorando la hora
+  SELECT * FROM evento
+  WHERE DATE(fecha_inicio) = '2024-12-25';
+
+Categoria: Funciones de fecha y hora | TIME
+  -- TIME: Extrae la parte de hora de un valor DATETIME
+  -- Sintaxis: TIME(expresion)
+  -- 
+ 
+  -- Ejemplo 1: Extraer solo la hora de un datetime
+  SELECT TIME(NOW()) AS solo_hora;
+ 
+  -- Ejemplo 2: Pedidos realizados por la tarde
+  SELECT * FROM pedido
+  WHERE TIME(fecha) BETWEEN '14:00:00' AND '18:00:00';
+ 
+  -- Ejemplo 3: Hora de última conexión de cada usuario
+  SELECT usuario, TIME(ultima_conexion) AS hora_conexion
+  FROM sesion;
+
+Categoria: Funciones de fecha y hora | YEAR
+  -- YEAR: Extrae el año de una fecha
+  -- Sintaxis: YEAR(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Año actual
+  SELECT YEAR(NOW()) AS anio;
+ 
+  -- Ejemplo 2: Total de ventas agrupado por año
+  SELECT YEAR(fecha), SUM(total) AS total_anual
+  FROM pedido
+  GROUP BY YEAR(fecha);
+ 
+  -- Ejemplo 3: Clientes registrados en el año actual
+  SELECT * FROM cliente
+  WHERE YEAR(fecha_registro) = YEAR(NOW());
+
+Categoria: Funciones de fecha y hora | MONTH
+  -- MONTH: Extrae el número de mes de una fecha (1-12)
+  -- Sintaxis: MONTH(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Mes actual
+  SELECT MONTH(NOW()) AS mes;
+ 
+  -- Ejemplo 2: Ventas agrupadas por mes
+  SELECT MONTH(fecha) AS mes, SUM(total)
+  FROM pedido
+  GROUP BY MONTH(fecha);
+ 
+  -- Ejemplo 3: Clientes que cumplen años este mes
+  SELECT nombre FROM cliente
+  WHERE MONTH(fecha_nacimiento) = MONTH(NOW());
+
+Categoria: Funciones de fecha y hora | DAY
+  -- DAY: Extrae el día del mes de una fecha (1-31)
+  -- Sintaxis: DAY(fecha) | DAYOFMONTH(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Día del mes actual
+  SELECT DAY(NOW()) AS dia;
+ 
+  -- Ejemplo 2: Pedidos realizados el día 15 de cualquier mes
+  SELECT * FROM pedido
+  WHERE DAY(fecha) = 15;
+ 
+  -- Ejemplo 3: Agrupar por día del mes
+  SELECT DAY(fecha), COUNT(*) AS total
+  FROM pedido
+  GROUP BY DAY(fecha);
+
+Categoria: Funciones de fecha y hora | HOUR
+  -- HOUR: Extrae la hora de un valor de tiempo (0-23)
+  -- Sintaxis: HOUR(hora)
+  -- 
+ 
+  -- Ejemplo 1: Hora actual
+  SELECT HOUR(NOW()) AS hora;
+ 
+  -- Ejemplo 2: Pedidos agrupados por hora del día
+  SELECT HOUR(fecha) AS hora, COUNT(*) AS total
+  FROM pedido
+  GROUP BY HOUR(fecha);
+ 
+  -- Ejemplo 3: Filtrar accesos en horario laboral
+  SELECT * FROM acceso
+  WHERE HOUR(fecha_hora) BETWEEN 8 AND 18;
+
+Categoria: Funciones de fecha y hora | MINUTE
+  -- MINUTE: Extrae los minutos de un valor de tiempo (0-59)
+  -- Sintaxis: MINUTE(hora)
+  -- 
+ 
+  -- Ejemplo 1: Minuto actual
+  SELECT MINUTE(NOW()) AS minuto;
+ 
+  -- Ejemplo 2: Registros en el minuto 30 de cada hora
+  SELECT * FROM log
+  WHERE MINUTE(timestamp) = 30;
+ 
+  -- Ejemplo 3: Duración en minutos completos
+  SELECT MINUTE(TIMEDIFF(hora_fin, hora_inicio)) AS minutos
+  FROM tarea;
+
+Categoria: Funciones de fecha y hora | SECOND
+  -- SECOND: Extrae los segundos de un valor de tiempo (0-59)
+  -- Sintaxis: SECOND(hora)
+  -- 
+ 
+  -- Ejemplo 1: Segundo actual
+  SELECT SECOND(NOW()) AS segundo;
+ 
+  -- Ejemplo 2: Filtrar por segundo exacto en log
+  SELECT * FROM log
+  WHERE SECOND(timestamp) = 0;
+ 
+  -- Ejemplo 3: Mostrar partes de tiempo separadas
+  SELECT HOUR(duracion) AS h, MINUTE(duracion) AS m, SECOND(duracion) AS s
+  FROM proceso;
+
+Categoria: Funciones de fecha y hora | DAYOFWEEK
+  -- DAYOFWEEK: Día de la semana (1=Domingo, 7=Sábado)
+  -- Sintaxis: DAYOFWEEK(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Día de la semana de hoy
+  SELECT DAYOFWEEK(NOW()) AS dia_semana;
+ 
+  -- Ejemplo 2: Solo pedidos entre semana (lunes a viernes)
+  SELECT * FROM pedido
+  WHERE DAYOFWEEK(fecha) BETWEEN 2 AND 6;
+ 
+  -- Ejemplo 3: Pedidos del fin de semana
+  SELECT * FROM pedido
+  WHERE DAYOFWEEK(fecha) IN (1, 7);
+
+Categoria: Funciones de fecha y hora | DAYOFYEAR
+  -- DAYOFYEAR: Día del año (1-366)
+  -- Sintaxis: DAYOFYEAR(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Día del año actual
+  SELECT DAYOFYEAR(NOW()) AS dia_anio;
+ 
+  -- Ejemplo 2: Registros del primer trimestre
+  SELECT * FROM pedido
+  WHERE DAYOFYEAR(fecha) <= 90;
+ 
+  -- Ejemplo 3: Diferencia de días dentro del mismo año
+  SELECT DAYOFYEAR(fecha_fin) - DAYOFYEAR(fecha_inicio) AS dias
+  FROM proyecto;
+
+Categoria: Funciones de fecha y hora | DAYNAME
+  -- DAYNAME: Nombre del día de la semana en inglés
+  -- Sintaxis: DAYNAME(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Nombre del día actual
+  SELECT DAYNAME(NOW()) AS nombre_dia;
+ 
+  -- Ejemplo 2: Contar pedidos por nombre de día
+  SELECT DAYNAME(fecha), COUNT(*) AS total
+  FROM pedido
+  GROUP BY DAYNAME(fecha);
+ 
+  -- Ejemplo 3: Filtrar solo los lunes
+  SELECT * FROM tarea
+  WHERE DAYNAME(fecha_asignacion) = 'Monday';
+
+Categoria: Funciones de fecha y hora | MONTHNAME
+  -- MONTHNAME: Nombre del mes en inglés
+  -- Sintaxis: MONTHNAME(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Nombre del mes actual
+  SELECT MONTHNAME(NOW()) AS nombre_mes;
+ 
+  -- Ejemplo 2: Reporte de ventas con nombre de mes
+  SELECT MONTHNAME(fecha), SUM(total)
+  FROM pedido
+  GROUP BY MONTHNAME(fecha), MONTH(fecha)
+  ORDER BY MONTH(fecha);
+ 
+  -- Ejemplo 3: Filtrar registros de un mes por nombre
+  SELECT * FROM evento
+  WHERE MONTHNAME(fecha) = 'December';
+
+Categoria: Funciones de fecha y hora | WEEK
+  -- WEEK: Número de semana dentro del año (0-53)
+  -- Sintaxis: WEEK(fecha) | WEEK(fecha, modo)
+  -- 
+ 
+  -- Ejemplo 1: Semana del año actual
+  SELECT WEEK(NOW()) AS semana;
+ 
+  -- Ejemplo 2: Ventas agrupadas por semana
+  SELECT WEEK(fecha) AS semana, SUM(total)
+  FROM pedido
+  GROUP BY WEEK(fecha);
+ 
+  -- Ejemplo 3: Semana ISO (comienza en lunes)
+  SELECT WEEK(NOW(), 3) AS semana_iso;
+
+Categoria: Funciones de fecha y hora | QUARTER
+  -- QUARTER: Trimestre del año (1-4)
+  -- Sintaxis: QUARTER(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Trimestre actual
+  SELECT QUARTER(NOW()) AS trimestre;
+ 
+  -- Ejemplo 2: Ventas agrupadas por trimestre
+  SELECT QUARTER(fecha), SUM(total) AS total_trimestre
+  FROM pedido
+  GROUP BY QUARTER(fecha);
+ 
+  -- Ejemplo 3: Pedidos del segundo trimestre
+  SELECT * FROM pedido
+  WHERE QUARTER(fecha) = 2;
+
+Categoria: Funciones de fecha y hora | DATEDIFF
+  -- DATEDIFF: Diferencia en días entre dos fechas
+  -- Sintaxis: DATEDIFF(fecha1, fecha2)
+  -- 
+ 
+  -- Ejemplo 1: Días entre dos fechas fijas
+  SELECT DATEDIFF('2024-12-31', '2024-01-01') AS dias;
+ 
+  -- Ejemplo 2: Días desde que se registró el cliente
+  SELECT nombre, DATEDIFF(NOW(), fecha_registro) AS dias_cliente
+  FROM cliente;
+ 
+  -- Ejemplo 3: Pedidos con más de 30 días de retraso
+  SELECT * FROM pedido
+  WHERE DATEDIFF(NOW(), fecha_estimada) > 30;
+
+Categoria: Funciones de fecha y hora | DATE_ADD
+  -- DATE_ADD: Suma un intervalo de tiempo a una fecha
+  -- Sintaxis: DATE_ADD(fecha, INTERVAL valor tipo)
+  -- 
+ 
+  -- Ejemplo 1: Sumar 30 días a hoy
+  SELECT DATE_ADD(NOW(), INTERVAL 30 DAY) AS fecha_futura;
+ 
+  -- Ejemplo 2: Calcular fecha de vencimiento de contrato
+  SELECT DATE_ADD(fecha_contrato, INTERVAL 1 YEAR) AS vencimiento
+  FROM contrato;
+ 
+  -- Ejemplo 3: Sumar horas a una hora de entrada
+  SELECT DATE_ADD(hora_entrada, INTERVAL 8 HOUR) AS hora_salida
+  FROM turno;
+
+Categoria: Funciones de fecha y hora | DATE_SUB
+  -- DATE_SUB: Resta un intervalo de tiempo a una fecha
+  -- Sintaxis: DATE_SUB(fecha, INTERVAL valor tipo)
+  -- 
+ 
+  -- Ejemplo 1: Restar 7 días a la fecha actual
+  SELECT DATE_SUB(NOW(), INTERVAL 7 DAY) AS hace_una_semana;
+ 
+  -- Ejemplo 2: Clientes registrados en el último mes
+  SELECT * FROM cliente
+  WHERE fecha_registro >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+ 
+  -- Ejemplo 3: Restar 30 minutos a la hora actual
+  SELECT DATE_SUB(NOW(), INTERVAL 30 MINUTE) AS hace_media_hora;
+
+Categoria: Funciones de fecha y hora | DATE_FORMAT
+  -- DATE_FORMAT: Formatea una fecha como cadena de texto
+  -- Sintaxis: DATE_FORMAT(fecha, formato)
+  -- 
+ 
+  -- Ejemplo 1: Formato de fecha europeo
+  SELECT DATE_FORMAT(NOW(), '%d/%m/%Y') AS fecha_formato;
+ 
+  -- Ejemplo 2: Fecha con nombre de mes
+  SELECT DATE_FORMAT(fecha, '%d de %M de %Y') AS fecha_legible
+  FROM pedido;
+ 
+  -- Ejemplo 3: Solo la hora formateada
+  SELECT DATE_FORMAT(NOW(), '%H:%i:%s') AS hora_formato;
+
+Categoria: Funciones de fecha y hora | STR_TO_DATE
+  -- STR_TO_DATE: Convierte una cadena de texto a fecha
+  -- Sintaxis: STR_TO_DATE(cadena, formato)
+  -- 
+ 
+  -- Ejemplo 1: Cadena en formato europeo a fecha
+  SELECT STR_TO_DATE('25/12/2024', '%d/%m/%Y') AS fecha;
+ 
+  -- Ejemplo 2: Cadena con fecha y hora
+  SELECT STR_TO_DATE('2024-12-25 14:30:00', '%Y-%m-%d %H:%i:%s') AS fecha_hora;
+ 
+  -- Ejemplo 3: Limpiar fechas mal importadas con UPDATE
+  UPDATE pedido SET fecha = STR_TO_DATE(fecha_texto, '%d-%m-%Y');
+
+Categoria: Funciones de fecha y hora | TIMESTAMPDIFF
+  -- TIMESTAMPDIFF: Diferencia entre dos fechas en una unidad dada
+  -- Sintaxis: TIMESTAMPDIFF(unidad, fecha1, fecha2)
+  -- 
+ 
+  -- Ejemplo 1: Diferencia en meses
+  SELECT TIMESTAMPDIFF(MONTH, '2024-01-01', NOW()) AS meses;
+ 
+  -- Ejemplo 2: Edad exacta en años
+  SELECT nombre, TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) AS edad
+  FROM cliente;
+ 
+  -- Ejemplo 3: Duración de sesión en minutos
+  SELECT TIMESTAMPDIFF(MINUTE, inicio_sesion, fin_sesion) AS duracion_min
+  FROM sesion;
+
+Categoria: Funciones de fecha y hora | UNIX_TIMESTAMP
+  -- UNIX_TIMESTAMP: Convierte una fecha a segundos desde epoch Unix
+  -- Sintaxis: UNIX_TIMESTAMP() | UNIX_TIMESTAMP(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Timestamp Unix actual
+  SELECT UNIX_TIMESTAMP() AS ts_unix;
+ 
+  -- Ejemplo 2: Timestamp de una fecha específica
+  SELECT UNIX_TIMESTAMP('2024-01-01') AS ts;
+ 
+  -- Ejemplo 3: Diferencia en segundos entre dos fechas
+  SELECT UNIX_TIMESTAMP(fin) - UNIX_TIMESTAMP(inicio) AS segundos
+  FROM proceso;
+
+Categoria: Funciones de fecha y hora | FROM_UNIXTIME
+  -- FROM_UNIXTIME: Convierte segundos Unix a fecha legible
+  -- Sintaxis: FROM_UNIXTIME(unix_ts) | FROM_UNIXTIME(unix_ts, formato)
+  -- 
+ 
+  -- Ejemplo 1: Epoch 0 a fecha
+  SELECT FROM_UNIXTIME(0) AS resultado;
+ 
+  -- Ejemplo 2: Con formato personalizado
+  SELECT FROM_UNIXTIME(ts_unix, '%d/%m/%Y') AS fecha_legible
+  FROM evento;
+ 
+  -- Ejemplo 3: Convertir timestamps almacenados como enteros
+  SELECT FROM_UNIXTIME(created_at) AS fecha_creacion
+  FROM registro;
+
+Categoria: Funciones de fecha y hora | LAST_DAY
+  -- LAST_DAY: Devuelve el último día del mes de una fecha
+  -- Sintaxis: LAST_DAY(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Último día del mes actual
+  SELECT LAST_DAY(NOW()) AS ultimo_dia;
+ 
+  -- Ejemplo 2: Días que quedan en el mes
+  SELECT DATEDIFF(LAST_DAY(NOW()), CURDATE()) AS dias_restantes;
+ 
+  -- Ejemplo 3: Todos los pedidos del mes en curso
+  SELECT * FROM pedido
+  WHERE fecha BETWEEN DATE_FORMAT(NOW(), '%Y-%m-01') AND LAST_DAY(NOW());
+
+Categoria: Funciones de fecha y hora | MAKEDATE
+  -- MAKEDATE: Crea una fecha a partir del año y el día del año
+  -- Sintaxis: MAKEDATE(anio, dia_del_anio)
+  -- 
+ 
+  -- Ejemplo 1: Día 100 del año 2024
+  SELECT MAKEDATE(2024, 100) AS resultado;
+ 
+  -- Ejemplo 2: Primer día del año actual
+  SELECT MAKEDATE(YEAR(NOW()), 1) AS primer_dia_anio;
+ 
+  -- Ejemplo 3: Último día del año actual
+  SELECT MAKEDATE(YEAR(NOW()), 365) AS ultimo_dia_anio;
+
+Categoria: Funciones de fecha y hora | MAKETIME
+  -- MAKETIME: Crea un valor de hora desde horas, minutos y segundos
+  -- Sintaxis: MAKETIME(hora, minuto, segundo)
+  -- 
+ 
+  -- Ejemplo 1: Crear hora de las 14:30
+  SELECT MAKETIME(14, 30, 0) AS resultado;
+ 
+  -- Ejemplo 2: Construir hora de cierre desde columnas
+  SELECT MAKETIME(hora_cierre, minuto_cierre, 0) AS cierre
+  FROM turno;
+ 
+  -- Ejemplo 3: Inicio de jornada como DATETIME
+  SELECT TIMESTAMP(CURDATE(), MAKETIME(9, 0, 0)) AS inicio_jornada;
+
+Categoria: Funciones de fecha y hora | EXTRACT
+  -- EXTRACT: Extrae una parte específica de una fecha
+  -- Sintaxis: EXTRACT(unidad FROM fecha)
+  -- 
+ 
+  -- Ejemplo 1: Extraer el año
+  SELECT EXTRACT(YEAR FROM NOW()) AS anio;
+ 
+  -- Ejemplo 2: Extraer la hora
+  SELECT EXTRACT(HOUR FROM NOW()) AS hora;
+ 
+  -- Ejemplo 3: Agrupar por año y mes combinados
+  SELECT EXTRACT(YEAR_MONTH FROM fecha) AS anio_mes, SUM(total)
+  FROM pedido
+  GROUP BY EXTRACT(YEAR_MONTH FROM fecha);
+
+Categoria: Funciones de control de flujo | IF
+  -- IF: Evaluación condicional simple de dos ramas
+  -- Sintaxis: IF(condicion, valor_si_true, valor_si_false)
+  -- 
+ 
+  -- Ejemplo 1: Mostrar estado activo o inactivo
+  SELECT IF(activo = 1, 'Activo', 'Inactivo') AS estado
+  FROM usuario;
+ 
+  -- Ejemplo 2: Aplicar descuento condicional
+  SELECT nombre, precio, IF(precio > 100, precio * 0.9, precio) AS precio_final
+  FROM producto;
+ 
+  -- Ejemplo 3: Clasificar disponibilidad de stock
+  SELECT nombre, IF(stock > 0, 'Disponible', 'Agotado') AS disponibilidad
+  FROM producto;
+
+Categoria: Funciones de control de flujo | IFNULL
+  -- IFNULL: Devuelve un valor alternativo si la expresión es NULL
+  -- Sintaxis: IFNULL(expr, valor_si_null)
+  -- 
+ 
+  -- Ejemplo 1: Reemplazar NULL por texto predeterminado
+  SELECT IFNULL(telefono, 'Sin teléfono') AS tel
+  FROM cliente;
+ 
+  -- Ejemplo 2: Descuento por defecto cuando es NULL
+  SELECT nombre, IFNULL(descuento, 0) AS descuento
+  FROM cliente;
+ 
+  -- Ejemplo 3: Concatenar evitando que un NULL rompa el resultado
+  SELECT CONCAT(nombre, ' ', IFNULL(apellido, '')) AS nombre_completo
+  FROM cliente;
+
+Categoria: Funciones de control de flujo | NULLIF
+  -- NULLIF: Devuelve NULL si los dos valores son iguales
+  -- Sintaxis: NULLIF(expr1, expr2)
+  -- 
+ 
+  -- Ejemplo 1: Evitar división por cero
+  SELECT total / NULLIF(unidades, 0) AS precio_unitario
+  FROM pedido;
+ 
+  -- Ejemplo 2: Convertir cadena vacía a NULL
+  SELECT NULLIF(comentario, '') AS comentario_limpio
+  FROM opinion;
+ 
+  -- Ejemplo 3: Detectar cambio de precio
+  SELECT NULLIF(precio_actual, precio_anterior) AS cambio
+  FROM historial_precio;
+
+Categoria: Funciones de control de flujo | COALESCE
+  -- COALESCE: Devuelve el primer valor no NULL de la lista
+  -- Sintaxis: COALESCE(val1, val2, ..., valN)
+  -- 
+ 
+  -- Ejemplo 1: Primer valor no NULL
+  SELECT COALESCE(NULL, NULL, 'tercero', 'cuarto') AS resultado;
+ 
+  -- Ejemplo 2: Primer teléfono disponible del cliente
+  SELECT nombre, COALESCE(tel_movil, tel_fijo, tel_trabajo, 'Sin contacto') AS telefono
+  FROM cliente;
+ 
+  -- Ejemplo 3: Precio con precio de oferta como prioridad
+  SELECT nombre, COALESCE(precio_oferta, precio_normal, 0) AS precio
+  FROM producto;
+
+Categoria: Funciones de control de flujo | CASE
+  -- CASE: Evaluación de múltiples condiciones
+  -- Sintaxis: CASE WHEN condicion THEN valor ... ELSE valor END
+  -- 
+ 
+  -- Ejemplo 1: Clasificar clientes por edad
+  SELECT nombre,
+    CASE
+      WHEN edad < 18 THEN 'Menor'
+      WHEN edad BETWEEN 18 AND 65 THEN 'Adulto'
+      ELSE 'Mayor'
+    END AS grupo_edad
+  FROM cliente;
+ 
+  -- Ejemplo 2: Traducir estado de pedido al español
+  SELECT id,
+    CASE estado
+      WHEN 'pending'   THEN 'Pendiente'
+      WHEN 'shipped'   THEN 'Enviado'
+      WHEN 'delivered' THEN 'Entregado'
+      ELSE 'Desconocido'
+    END AS estado_es
+  FROM pedido;
+ 
+  -- Ejemplo 3: Aplicar descuento según categoría de cliente
+  SELECT nombre, precio,
+    precio * (1 - CASE categoria
+      WHEN 'VIP'    THEN 0.20
+      WHEN 'Normal' THEN 0.10
+      ELSE 0
+    END) AS precio_final
+  FROM cliente;
+
+Categoria: Funciones de comparación | BETWEEN
+  -- BETWEEN: Comprueba si un valor está dentro de un rango
+  -- Sintaxis: valor BETWEEN min AND max
+  -- 
+ 
+  -- Ejemplo 1: Productos en rango de precio
+  SELECT * FROM producto
+  WHERE precio BETWEEN 10 AND 50;
+ 
+  -- Ejemplo 2: Pedidos en un rango de fechas
+  SELECT * FROM pedido
+  WHERE fecha BETWEEN '2024-01-01' AND '2024-12-31';
+ 
+  -- Ejemplo 3: Rango de texto por orden alfabético
+  SELECT * FROM cliente
+  WHERE nombre BETWEEN 'A' AND 'M';
+
+Categoria: Funciones de comparación | IN
+  -- IN: Comprueba si un valor está en una lista de valores
+  -- Sintaxis: valor IN (val1, val2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Filtrar por lista de estados
+  SELECT * FROM pedido
+  WHERE estado IN ('enviado', 'entregado');
+ 
+  -- Ejemplo 2: Filtrar por lista de IDs
+  SELECT * FROM producto
+  WHERE id IN (1, 5, 10, 15);
+ 
+  -- Ejemplo 3: Excluir ciudades con NOT IN
+  SELECT * FROM cliente
+  WHERE ciudad NOT IN ('Madrid', 'Barcelona');
+
+Categoria: Funciones de comparación | IS NULL
+  -- 
+  -- IS NULL: Comprueba si un valor es NULL
+  -- Sintaxis: columna IS NULL | columna IS NOT NULL
+  -- 
+ 
+  -- Ejemplo 1: Registros sin teléfono asignado
+  SELECT * FROM cliente
+  WHERE telefono IS NULL;
+ 
+  -- Ejemplo 2: Registros con teléfono asignado
+  SELECT * FROM cliente
+  WHERE telefono IS NOT NULL;
+ 
+  -- Ejemplo 3: Contar clientes sin email
+  SELECT COUNT(*) AS sin_email
+  FROM cliente
+  WHERE email IS NULL;
+
+Categoria: Funciones de comparación | LIKE
+  -- LIKE: Compara con un patrón de texto
+  -- Sintaxis: columna LIKE 'patron'  (% = varios chars, _ = uno)
+  -- 
+ 
+  -- Ejemplo 1: Nombres que empiezan por 'Juan'
+  SELECT * FROM cliente
+  WHERE nombre LIKE 'Juan%';
+ 
+  -- Ejemplo 2: Apellidos que contienen 'garcia'
+  SELECT * FROM cliente
+  WHERE apellido LIKE '%garcia%';
+ 
+  -- Ejemplo 3: Códigos de exactamente 5 caracteres
+  SELECT * FROM codigo
+  WHERE valor LIKE '_____';
+
+Categoria: Funciones JSON | JSON_OBJECT
+  -- JSON_OBJECT: Crea un objeto JSON a partir de pares clave-valor
+  -- Sintaxis: JSON_OBJECT(clave, valor, ...)
+  -- 
+ 
+  -- Ejemplo 1: Objeto JSON simple
+  SELECT JSON_OBJECT('nombre', 'Juan', 'edad', 30) AS resultado;
+ 
+  -- Ejemplo 2: Construir JSON desde columnas de una tabla
+  SELECT JSON_OBJECT('id', id, 'nombre', nombre, 'precio', precio) AS json_producto
+  FROM producto;
+ 
+  -- Ejemplo 3: Objeto JSON con objeto anidado
+  SELECT JSON_OBJECT('cliente', nombre, 'direccion',
+    JSON_OBJECT('ciudad', ciudad, 'pais', pais)) AS resultado
+  FROM cliente;
+
+Categoria: Funciones JSON | JSON_ARRAY
+  -- JSON_ARRAY: Crea un array JSON a partir de una lista de valores
+  -- Sintaxis: JSON_ARRAY(val1, val2, ...)
+  -- 
+ 
+  -- Ejemplo 1: Array con valores mixtos
+  SELECT JSON_ARRAY(1, 2, 3, 'cuatro') AS resultado;
+ 
+  -- Ejemplo 2: Array desde columnas de una fila
+  SELECT JSON_ARRAY(nombre, precio, stock) AS datos
+  FROM producto;
+ 
+  -- Ejemplo 3: Array de objetos JSON
+  SELECT JSON_ARRAY(
+    JSON_OBJECT('id', 1, 'nombre', 'A'),
+    JSON_OBJECT('id', 2, 'nombre', 'B')
+  ) AS lista;
+
+Categoria: Funciones JSON | JSON_EXTRACT
+  -- JSON_EXTRACT: Extrae un valor de un documento JSON
+  -- Sintaxis: JSON_EXTRACT(json, ruta) | json->'$.ruta'
+  -- 
+ 
+  -- Ejemplo 1: Extraer campo por nombre
+  SELECT JSON_EXTRACT('{"nombre":"Juan","edad":30}', '$.nombre') AS resultado;
+ 
+  -- Ejemplo 2: Notación corta con operador ->
+  SELECT datos->'$.precio' AS precio
+  FROM producto_json;
+ 
+  -- Ejemplo 3: Extraer elemento de un array JSON
+  SELECT JSON_EXTRACT('["a","b","c"]', '$[1]') AS resultado;
+
+Categoria: Funciones JSON | JSON_UNQUOTE
+  -- JSON_UNQUOTE: Elimina las comillas del valor extraído de JSON
+  -- Sintaxis: JSON_UNQUOTE(valor_json) | json->>'$.ruta'
+  -- 
+ 
+  -- Ejemplo 1: Valor sin comillas externas
+  SELECT JSON_UNQUOTE(JSON_EXTRACT('{"nombre":"Juan"}', '$.nombre')) AS nombre;
+ 
+  -- Ejemplo 2: Notación corta sin comillas con ->>
+  SELECT datos->>'$.nombre' AS nombre
+  FROM cliente_json;
+ 
+  -- Ejemplo 3: Filtrar usando valor sin comillas
+  SELECT * FROM cliente_json
+  WHERE datos->>'$.ciudad' = 'Madrid';
+
+Categoria: Funciones JSON | JSON_SET
+  -- JSON_SET: Inserta o actualiza un valor en un documento JSON
+  -- Sintaxis: JSON_SET(json, ruta, valor, ...)
+  -- 
+ 
+  -- Ejemplo 1: Actualizar un campo existente
+  SELECT JSON_SET('{"nombre":"Juan"}', '$.edad', 30) AS resultado;
+ 
+  -- Ejemplo 2: Añadir campo nuevo a columna JSON
+  SELECT JSON_SET(datos, '$.activo', 1) AS datos_actualizados
+  FROM cliente_json;
+ 
+  -- Ejemplo 3: Actualizar múltiples campos con UPDATE
+  UPDATE configuracion
+  SET datos = JSON_SET(datos, '$.version', '2.0', '$.actualizado', NOW());
+
+Categoria: Funciones JSON | JSON_INSERT
+  -- JSON_INSERT: Inserta un valor solo si la clave no existe
+  -- Sintaxis: JSON_INSERT(json, ruta, valor)
+  -- 
+ 
+  -- Ejemplo 1: No modifica si la clave ya existe
+  SELECT JSON_INSERT('{"nombre":"Juan"}', '$.nombre', 'Pedro') AS resultado;
+ 
+  -- Ejemplo 2: Inserta solo claves nuevas
+  SELECT JSON_INSERT('{"nombre":"Juan"}', '$.email', 'juan@test.com') AS resultado;
+ 
+  -- Ejemplo 3: Asignar valor por defecto si no existe
+  UPDATE cliente_json
+  SET datos = JSON_INSERT(datos, '$.nivel', 'básico');
+
+Categoria: Funciones JSON | JSON_REPLACE
+  -- JSON_REPLACE: Reemplaza un valor solo si la clave ya existe
+  -- Sintaxis: JSON_REPLACE(json, ruta, valor)
+  -- 
+ 
+  -- Ejemplo 1: Reemplaza campo existente
+  SELECT JSON_REPLACE('{"nombre":"Juan"}', '$.nombre', 'Pedro') AS resultado;
+ 
+  -- Ejemplo 2: No hace nada si la clave no existe
+  SELECT JSON_REPLACE('{"nombre":"Juan"}', '$.email', 'juan@test.com') AS resultado;
+ 
+  -- Ejemplo 3: Actualizar campo conocido en columna
+  UPDATE perfil
+  SET config = JSON_REPLACE(config, '$.tema', 'oscuro');
+
+Categoria: Funciones JSON | JSON_REMOVE
+  -- JSON_REMOVE: Elimina una clave de un documento JSON
+  -- Sintaxis: JSON_REMOVE(json, ruta, ...)
+  -- 
+ 
+  -- Ejemplo 1: Eliminar un campo
+  SELECT JSON_REMOVE('{"nombre":"Juan","edad":30}', '$.edad') AS resultado;
+ 
+  -- Ejemplo 2: Eliminar varios campos a la vez
+  SELECT JSON_REMOVE(datos, '$.tmp', '$.debug') AS datos_limpios
+  FROM configuracion;
+ 
+  -- Ejemplo 3: Eliminar elemento de array JSON
+  SELECT JSON_REMOVE('["a","b","c"]', '$[1]') AS resultado;
+
+Categoria: Funciones JSON | JSON_CONTAINS
+  -- JSON_CONTAINS: Verifica si un JSON contiene un valor dado
+  -- Sintaxis: JSON_CONTAINS(json_destino, json_candidato, ruta)
+  -- 
+ 
+  -- Ejemplo 1: Verificar si un array contiene un valor
+  SELECT JSON_CONTAINS('{"roles":["admin","user"]}', '"admin"', '$.roles') AS resultado;
+ 
+  -- Ejemplo 2: Filtrar usuarios con rol específico
+  SELECT * FROM usuario
+  WHERE JSON_CONTAINS(permisos, '"editor"', '$.roles');
+ 
+  -- Ejemplo 3: Verificar si contiene un subobjeto
+  SELECT JSON_CONTAINS('{"a":1,"b":2}', '{"a":1}') AS resultado;
+
+Categoria: Funciones JSON | JSON_KEYS
+  -- JSON_KEYS: Devuelve las claves de un objeto JSON como array
+  -- Sintaxis: JSON_KEYS(json) | JSON_KEYS(json, ruta)
+  -- 
+ 
+  -- Ejemplo 1: Claves del objeto raíz
+  SELECT JSON_KEYS('{"nombre":"Juan","edad":30}') AS claves;
+ 
+  -- Ejemplo 2: Claves de un objeto anidado
+  SELECT JSON_KEYS('{"persona":{"nombre":"Juan","edad":30}}', '$.persona') AS claves;
+ 
+  -- Ejemplo 3: Revisar estructura de columna JSON
+  SELECT id, JSON_KEYS(datos) AS estructura
+  FROM configuracion;
+
+Categoria: Funciones JSON | JSON_LENGTH
+  -- JSON_LENGTH: Devuelve el número de elementos de un JSON
+  -- Sintaxis: JSON_LENGTH(json) | JSON_LENGTH(json, ruta)
+  -- 
+ 
+  -- Ejemplo 1: Número de claves en objeto
+  SELECT JSON_LENGTH('{"a":1,"b":2,"c":3}') AS longitud;
+ 
+  -- Ejemplo 2: Número de elementos en array
+  SELECT JSON_LENGTH('["a","b","c","d"]') AS elementos;
+ 
+  -- Ejemplo 3: Filtrar pedidos con más de 5 ítems
+  SELECT * FROM pedido
+  WHERE JSON_LENGTH(items) > 5;
+
+Categoria: Funciones JSON | JSON_TYPE
+  -- JSON_TYPE: Devuelve el tipo de dato del valor JSON
+  -- Sintaxis: JSON_TYPE(json)
+  -- 
+ 
+  -- Ejemplo 1: Tipos de distintos valores JSON
+  SELECT JSON_TYPE('"texto"') AS tipo_string,
+         JSON_TYPE('123')     AS tipo_integer,
+         JSON_TYPE('[1,2]')   AS tipo_array,
+         JSON_TYPE('{"a":1}') AS tipo_object;
+ 
+  -- Ejemplo 2: Filtrar columnas por tipo de valor
+  SELECT * FROM datos_json
+  WHERE JSON_TYPE(datos->'$.precio') = 'DOUBLE';
+ 
+  -- Ejemplo 3: Auditar tipos en columna JSON
+  SELECT JSON_TYPE(valor) AS tipo, COUNT(*) AS total
+  FROM campo_json
+  GROUP BY JSON_TYPE(valor);
+
+Categoria: Funciones JSON | JSON_VALID
+  -- JSON_VALID: Verifica si una cadena es un JSON válido
+  -- Sintaxis: JSON_VALID(str)
+  -- 
+ 
+  -- Ejemplo 1: JSON bien formado
+  SELECT JSON_VALID('{"nombre":"Juan"}') AS resultado;
+ 
+  -- Ejemplo 2: JSON mal formado
+  SELECT JSON_VALID('{nombre:Juan}') AS resultado;
+ 
+  -- Ejemplo 3: Filtrar registros con JSON válido en importación
+  SELECT * FROM importacion
+  WHERE JSON_VALID(datos_crudos) = 1;
+
+Categoria: Funciones JSON | JSON_ARRAYAGG
+  -- JSON_ARRAYAGG: Agrega valores de un grupo en un array JSON
+  -- Sintaxis: JSON_ARRAYAGG(columna)
+  -- Disponible desde: MySQL 8.0
+  -- 
+ 
+  -- Ejemplo 1: Nombres de productos por categoría
+  SELECT categoria, JSON_ARRAYAGG(nombre) AS productos
+  FROM producto
+  GROUP BY categoria;
+ 
+  -- Ejemplo 2: IDs de pedidos por cliente
+  SELECT cliente_id, JSON_ARRAYAGG(id) AS pedidos
+  FROM pedido
+  GROUP BY cliente_id;
+ 
+  -- Ejemplo 3: Lista de precios de productos activos
+  SELECT JSON_ARRAYAGG(precio) AS lista_precios
+  FROM producto
+  WHERE activo = 1;
+
+Categoria: Funciones JSON | JSON_OBJECTAGG
+  -- JSON_OBJECTAGG: Agrega pares clave-valor en un objeto JSON
+  -- Sintaxis: JSON_OBJECTAGG(clave, valor)
+  -- Disponible desde: MySQL 8.0
+  -- 
+ 
+  -- Ejemplo 1: Catálogo nombre-precio
+  SELECT JSON_OBJECTAGG(nombre, precio) AS catalogo
+  FROM producto;
+ 
+  -- Ejemplo 2: Configuración de usuario como objeto
+  SELECT JSON_OBJECTAGG(clave, valor) AS config
+  FROM configuracion
+  WHERE usuario_id = 1;
+ 
+  -- Ejemplo 3: Mapa de ID a nombre de productos activos
+  SELECT JSON_OBJECTAGG(id, nombre) AS mapa_productos
+  FROM producto
+  WHERE activo = 1;
+
+Categoria: Funciones del sistema | VERSION
+  -- VERSION: Devuelve la versión actual del servidor MySQL
+  -- Sintaxis: VERSION()
+  -- 
+ 
+  -- Ejemplo 1: Consultar versión del servidor
+  SELECT VERSION() AS version_mysql;
+ 
+  -- Ejemplo 2: Verificar si es versión 8.x
+  SELECT IF(LEFT(VERSION(), 1) = '8', 'MySQL 8', 'Otra versión') AS info;
+ 
+  -- Ejemplo 3: Incluir en información de sistema
+  SELECT 'MySQL' AS motor, VERSION() AS version, NOW() AS fecha_consulta;
+
+Categoria: Funciones del sistema | DATABASE
+  -- DATABASE: Devuelve el nombre de la base de datos activa
+  -- Sintaxis: DATABASE()
+  -- 
+ 
+  -- Ejemplo 1: Base de datos en uso
+  SELECT DATABASE() AS bd_actual;
+ 
+  -- Ejemplo 2: Detectar entorno activo
+  SELECT IF(DATABASE() = 'produccion', 'PROD', 'OTRO') AS entorno;
+ 
+  -- Ejemplo 3: Metadatos de la sesión actual
+  SELECT DATABASE() AS base_datos, USER() AS usuario, NOW() AS consultado_en;
+
+Categoria: Funciones del sistema | USER
+  -- USER: Devuelve el usuario y host de la sesión actual
+  -- Sintaxis: USER() | CURRENT_USER()
+  -- 
+ 
+  -- Ejemplo 1: Usuario conectado
+  SELECT USER() AS usuario;
+ 
+  -- Ejemplo 2: Diferencia entre USER y CURRENT_USER
+  SELECT USER() AS autenticado, CURRENT_USER() AS en_uso;
+ 
+  -- Ejemplo 3: Registrar acceso en log
+  INSERT INTO log_acceso (usuario, fecha)
+  VALUES (USER(), NOW());
+
+Categoria: Funciones del sistema | CONNECTION_ID
+  -- CONNECTION_ID: Devuelve el ID único de la conexión actual
+  -- Sintaxis: CONNECTION_ID()
+  -- 
+ 
+  -- Ejemplo 1: ID de la conexión activa
+  SELECT CONNECTION_ID() AS id_conexion;
+ 
+  -- Ejemplo 2: Registrar inicio de sesión con ID de conexión
+  INSERT INTO log_sesion (conexion_id, usuario, inicio)
+  VALUES (CONNECTION_ID(), USER(), NOW());
+ 
+  -- Ejemplo 3: Diagnóstico completo de sesión
+  SELECT CONNECTION_ID(), USER(), DATABASE(), VERSION();
+
+Categoria: Funciones del sistema | LAST_INSERT_ID
+  -- LAST_INSERT_ID: Devuelve el último ID generado por AUTO_INCREMENT
+  -- Sintaxis: LAST_INSERT_ID()
+  -- 
+ 
+  -- Ejemplo 1: Obtener ID del último INSERT
+  INSERT INTO categoria (nombre) VALUES ('Electrónica');
+  SELECT LAST_INSERT_ID() AS nuevo_id;
+ 
+  -- Ejemplo 2: Usar el ID en un segundo INSERT relacionado
+  INSERT INTO producto (nombre, categoria_id)
+  VALUES ('TV', LAST_INSERT_ID());
+ 
+  -- Ejemplo 3: Encadenar INSERTs en una transacción
+  START TRANSACTION;
+  INSERT INTO pedido (cliente_id) VALUES (1);
+  INSERT INTO pedido_detalle (pedido_id, producto_id) VALUES (LAST_INSERT_ID(), 5);
+  COMMIT;
+
+Categoria: Funciones del sistema | ROW_COUNT
+  -- ROW_COUNT: Filas afectadas por la última operación DML
+  -- Sintaxis: ROW_COUNT()
+  -- 
+ 
+  -- Ejemplo 1: Verificar cuántas filas se actualizaron
+  UPDATE cliente SET activo = 0 WHERE ciudad = 'Madrid';
+  SELECT ROW_COUNT() AS filas_actualizadas;
+ 
+  -- Ejemplo 2: Comprobar si el DELETE eliminó algo
+  DELETE FROM sesion WHERE expiracion < NOW();
+  SELECT ROW_COUNT() AS sesiones_eliminadas;
+ 
+  -- Ejemplo 3: Confirmar que el INSERT fue exitoso
+  INSERT INTO log (mensaje) VALUES ('inicio');
+  SELECT ROW_COUNT() AS insertados;
+
+Categoria: Funciones del sistema | FOUND_ROWS
+  -- FOUND_ROWS: Total de filas sin tener en cuenta el LIMIT
+  -- Sintaxis: FOUND_ROWS() (requiere SQL_CALC_FOUND_ROWS)
+  -- 
+ 
+  -- Ejemplo 1: Total real para sistema de paginación
+  SELECT SQL_CALC_FOUND_ROWS * FROM producto LIMIT 10 OFFSET 0;
+  SELECT FOUND_ROWS() AS total_sin_limit;
+ 
+  -- Ejemplo 2: Paginación con total de resultados
+  SELECT SQL_CALC_FOUND_ROWS id, nombre FROM cliente
+  WHERE activo = 1
+  LIMIT 20 OFFSET 40;
+  SELECT FOUND_ROWS() AS total_clientes_activos;
+ 
+  -- Ejemplo 3: Total de pendientes en procedimiento
+  SELECT SQL_CALC_FOUND_ROWS * FROM pedido WHERE estado = 'pendiente' LIMIT 5;
+  SELECT FOUND_ROWS() AS total_pendientes;
+
+Categoria: Funciones de cifrado | MD5
+  -- 
+  -- MD5: Genera el hash MD5 de una cadena
+  -- Sintaxis: MD5(str)
+  -- 
+ 
+  -- Ejemplo 1: Hash de texto
+  SELECT MD5('contraseña') AS hash;
+ 
+  -- Ejemplo 2: Verificar integridad de archivo
+  SELECT * FROM archivo
+  WHERE MD5(contenido) != hash_guardado;
+ 
+  -- Ejemplo 3: Comparar contraseña con hash almacenado
+  SELECT * FROM usuario
+  WHERE MD5(CONCAT(clave_ingresada, salt)) = hash_clave;
+
+Categoria: Funciones de cifrado | SHA2
+  -- 
+  -- SHA2: Genera un hash SHA de la longitud indicada
+  -- Sintaxis: SHA2(str, bits)  (bits: 224, 256, 384, 512)
+  -- 
+ 
+  -- Ejemplo 1: Hash SHA-256
+  SELECT SHA2('texto', 256) AS hash_sha256;
+ 
+  -- Ejemplo 2: Hash SHA-512
+  SELECT SHA2('texto', 512) AS hash_sha512;
+ 
+  -- Ejemplo 3: Almacenar contraseña con SHA-512 y salt
+  INSERT INTO usuario (nombre, password_hash)
+  VALUES ('Juan', SHA2(CONCAT('mipassword', 'salt_secreto'), 512));
+
+Categoria: Funciones de cifrado | UUID
+  -- UUID: Genera un identificador único universal (UUID v1)
+  -- Sintaxis: UUID()
+  -- 
+ 
+  -- Ejemplo 1: Generar un UUID
+  SELECT UUID() AS uuid_nuevo;
+ 
+  -- Ejemplo 2: Insertar fila con UUID como clave primaria
+  INSERT INTO sesion (id, usuario_id, inicio)
+  VALUES (UUID(), 1, NOW());
+ 
+  -- Ejemplo 3: UUID sin guiones
+  SELECT REPLACE(UUID(), '-', '') AS uuid_limpio;
+
+Categoria: Funciones de conversión | CAST
+  -- CAST: Convierte un valor a un tipo de dato específico
+  -- Sintaxis: CAST(valor AS tipo)
+  -- Tipos: CHAR, SIGNED, UNSIGNED, DECIMAL, DATE, DATETIME, TIME, JSON
+  -- 
+ 
+  -- Ejemplo 1: Convertir texto a entero
+  SELECT CAST('42' AS SIGNED) AS resultado;
+ 
+  -- Ejemplo 2: Convertir precio numérico a texto
+  SELECT CAST(precio AS CHAR) AS precio_texto
+  FROM producto;
+ 
+  -- Ejemplo 3: Convertir cadena a fecha
+  SELECT CAST('2024-12-25' AS DATE) AS fecha;
+
+Categoria: Funciones de conversión | CONVERT
+  -- CONVERT: Convierte tipo de dato o juego de caracteres
+  -- Sintaxis: CONVERT(valor, tipo) | CONVERT(str USING charset)
+  -- 
+ 
+  -- Ejemplo 1: Convertir texto a entero
+  SELECT CONVERT('99', SIGNED) AS resultado;
+ 
+  -- Ejemplo 2: Cambiar charset de una columna
+  SELECT CONVERT(nombre USING utf8mb4) AS nombre_utf8
+  FROM cliente;
+ 
+  -- Ejemplo 3: Convertir a DECIMAL con precisión
+  SELECT CONVERT('3.14', DECIMAL(10,2)) AS pi_decimal;
+
+Categoria: Funciones de cadena | LCASE
+  -- LCASE: Alias de LOWER, convierte la cadena a minúsculas
+  -- Sintaxis: LCASE(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto literal
+  SELECT LCASE('HOLA MUNDO') AS resultado;
+ 
+  -- Ejemplo 2: Normalizar nombre de columna
+  SELECT LCASE(nombre) AS nombre_minus
+  FROM cliente;
+ 
+  -- Ejemplo 3: Comparación insensible a mayúsculas
+  SELECT * FROM usuario
+  WHERE LCASE(email) = 'juan@gmail.com';
+
+Categoria: Funciones de cadena | UCASE
+  -- UCASE: Alias de UPPER, convierte la cadena a mayúsculas
+  -- Sintaxis: UCASE(str)
+  -- 
+ 
+  -- Ejemplo 1: Texto literal
+  SELECT UCASE('hola mundo') AS resultado;
+ 
+  -- Ejemplo 2: Mostrar nombre en mayúsculas
+  SELECT UCASE(nombre) AS nombre_mayus
+  FROM cliente;
+ 
+  -- Ejemplo 3: Comparación sin distinción de mayúsculas
+  SELECT * FROM cliente
+  WHERE UCASE(ciudad) = 'MADRID';
+
+Categoria: Funciones de cadena | CHARACTER_LENGTH
+  -- CHARACTER_LENGTH: Alias de CHAR_LENGTH, longitud en caracteres
+  -- Sintaxis: CHARACTER_LENGTH(str)
+  -- 
+ 
+  -- Ejemplo 1: Longitud de texto con caracteres especiales
+  SELECT CHARACTER_LENGTH('Héroe') AS chars;
+ 
+  -- Ejemplo 2: Con columna de texto
+  SELECT nombre, CHARACTER_LENGTH(nombre) AS longitud
+  FROM cliente;
+ 
+  -- Ejemplo 3: Filtrar por longitud
+  SELECT nombre FROM producto
+  WHERE CHARACTER_LENGTH(nombre) > 20;
+
+Categoria: Funciones de cadena | MID
+  -- MID: Alias de SUBSTRING, extrae subcadena desde posición
+  -- Sintaxis: MID(str, pos, longitud)
+  -- 
+ 
+  -- Ejemplo 1: Extraer 3 caracteres desde posición 2
+  SELECT MID('MySQL', 2, 3) AS resultado;
+ 
+  -- Ejemplo 2: Extraer mes de fecha en texto
+  SELECT MID(fecha_texto, 6, 2) AS mes
+  FROM pedido;
+ 
+  -- Ejemplo 3: Extraer parte de un código
+  SELECT MID(codigo, 4, 5) AS parte_codigo
+  FROM producto;
+
+Categoria: Funciones de cadena | SUBSTR
+  -- SUBSTR: Alias de SUBSTRING, extrae subcadena desde posición
+  -- Sintaxis: SUBSTR(str, pos) | SUBSTR(str, pos, longitud)
+  -- 
+ 
+  -- Ejemplo 1: Desde posición 3 hasta el final
+  SELECT SUBSTR('MySQL', 3) AS resultado;
+ 
+  -- Ejemplo 2: Con longitud definida
+  SELECT SUBSTR('MySQL Database', 7, 8) AS resultado;
+ 
+  -- Ejemplo 3: Extraer prefijo de código
+  SELECT SUBSTR(codigo, 1, 3) AS prefijo
+  FROM producto;
+
+Categoria: Funciones de cadena | SUBSTRING_INDEX
+  -- SUBSTRING_INDEX: Extrae subcadena antes o después de un delimitador
+  -- Sintaxis: SUBSTRING_INDEX(str, delimitador, N)
+  -- 
+ 
+  -- Ejemplo 1: Parte antes del punto
+  SELECT SUBSTRING_INDEX('www.mysql.com', '.', 1) AS resultado;
+ 
+  -- Ejemplo 2: Dos primeras partes
+  SELECT SUBSTRING_INDEX('www.mysql.com', '.', 2) AS resultado;
+ 
+  -- Ejemplo 3: Extraer dominio de email
+  SELECT SUBSTRING_INDEX(email, '@', -1) AS dominio
+  FROM usuario;
+
+Categoria: Funciones de cadena | POSITION
+  -- POSITION: Devuelve la posición de una subcadena dentro de otra
+  -- Sintaxis: POSITION(subcadena IN str)
+  -- 
+ 
+  -- Ejemplo 1: Posición de 'SQL' en cadena
+  SELECT POSITION('SQL' IN 'MySQL') AS resultado;
+ 
+  -- Ejemplo 2: Verificar si contiene texto
+  SELECT * FROM cliente
+  WHERE POSITION('@gmail' IN email) > 0;
+ 
+  -- Ejemplo 3: Posición del arroba
+  SELECT email, POSITION('@' IN email) AS pos_arroba
+  FROM usuario;
+
+Categoria: Funciones numéricas | ACOS
+  -- ACOS: Devuelve el arcocoseno de un número (en radianes)
+  -- Sintaxis: ACOS(x)
+  -- 
+ 
+  -- Ejemplo 1: Arcocoseno de 1
+  SELECT ACOS(1) AS resultado;
+ 
+  -- Ejemplo 2: Arcocoseno en grados
+  SELECT DEGREES(ACOS(0.5)) AS grados;
+ 
+  -- Ejemplo 3: Ángulo desde producto escalar normalizado
+  SELECT DEGREES(ACOS(producto_escalar)) AS angulo
+  FROM vector;
+
+Categoria: Funciones numéricas | ASIN
+  -- ASIN: Devuelve el arcoseno de un número (en radianes)
+  -- Sintaxis: ASIN(x)
+  -- 
+ 
+  -- Ejemplo 1: Arcoseno de 1
+  SELECT DEGREES(ASIN(1)) AS resultado;
+ 
+  -- Ejemplo 2: Arcoseno de 0.5
+  SELECT DEGREES(ASIN(0.5)) AS grados;
+ 
+  -- Ejemplo 3: Calcular ángulo desde seno
+  SELECT DEGREES(ASIN(seno_valor)) AS angulo
+  FROM medicion;
+
+Categoria: Funciones numéricas | ATAN
+  -- ATAN: Devuelve la arcotangente de un número (en radianes)
+  -- Sintaxis: ATAN(x) | ATAN(y, x)
+  -- 
+ 
+  -- Ejemplo 1: Arcotangente de 1
+  SELECT DEGREES(ATAN(1)) AS resultado;
+ 
+  -- Ejemplo 2: Arcotangente con dos parámetros
+  SELECT DEGREES(ATAN(1, 1)) AS resultado;
+ 
+  -- Ejemplo 3: Ángulo desde coordenadas
+  SELECT DEGREES(ATAN(y, x)) AS angulo
+  FROM vector;
+
+Categoria: Funciones numéricas | ATAN2
+  -- 
+  -- ATAN2: Arcotangente de y/x usando los signos para determinar el cuadrante
+  -- Sintaxis: ATAN2(y, x)
+  -- 
+ 
+  -- Ejemplo 1: Ángulo en el plano
+  SELECT DEGREES(ATAN2(1, 1)) AS resultado;
+ 
+  -- Ejemplo 2: Ángulo de vector
+  SELECT DEGREES(ATAN2(-1, -1)) AS resultado;
+ 
+  -- Ejemplo 3: Dirección desde coordenadas
+  SELECT DEGREES(ATAN2(y2 - y1, x2 - x1)) AS direccion
+  FROM trayectoria;
+
+Categoria: Funciones numéricas | COT
+  -- COT: Devuelve la cotangente de un ángulo en radianes
+  -- Sintaxis: COT(x)
+  -- 
+ 
+  -- Ejemplo 1: Cotangente de PI/4
+  SELECT COT(PI() / 4) AS resultado;
+ 
+  -- Ejemplo 2: Cotangente de 45 grados
+  SELECT COT(RADIANS(45)) AS resultado;
+ 
+  -- Ejemplo 3: Cotangente de columna en radianes
+  SELECT angulo, COT(angulo) AS cotangente
+  FROM vector;
+
+Categoria: Funciones numéricas | LN
+  -- LN: Logaritmo natural (alias de LOG)
+  -- Sintaxis: LN(numero)
+  -- 
+ 
+  -- Ejemplo 1: Logaritmo natural de e
+  SELECT LN(EXP(1)) AS resultado;
+ 
+  -- Ejemplo 2: Logaritmo natural de 10
+  SELECT LN(10) AS resultado;
+ 
+  -- Ejemplo 3: Escala logarítmica de valores
+  SELECT nombre, LN(valor) AS escala_ln
+  FROM estadistica;
+
+Categoria: Funciones de agregación | AVG
+  -- AVG: Devuelve el promedio de un conjunto de valores
+  -- Sintaxis: AVG(columna)
+  -- 
+ 
+  -- Ejemplo 1: Promedio de precios
+  SELECT AVG(precio) AS precio_medio
+  FROM producto;
+ 
+  -- Ejemplo 2: Promedio por categoría
+  SELECT categoria, AVG(precio) AS precio_medio
+  FROM producto
+  GROUP BY categoria;
+ 
+  -- Ejemplo 3: Promedio de ventas del último mes
+  SELECT AVG(total) AS media_ventas
+  FROM pedido
+  WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+
+Categoria: Funciones de agregación | COUNT
+  -- COUNT: Cuenta el número de filas o valores no NULL
+  -- Sintaxis: COUNT(*) | COUNT(columna)
+  -- 
+ 
+  -- Ejemplo 1: Total de registros
+  SELECT COUNT(*) AS total
+  FROM cliente;
+ 
+  -- Ejemplo 2: Contar valores no NULL
+  SELECT COUNT(email) AS con_email
+  FROM cliente;
+ 
+  -- Ejemplo 3: Contar por grupo
+  SELECT ciudad, COUNT(*) AS total_clientes
+  FROM cliente
+  GROUP BY ciudad;
+
+Categoria: Funciones de agregación | SUM
+  -- SUM: Devuelve la suma de un conjunto de valores
+  -- Sintaxis: SUM(columna)
+  -- 
+ 
+  -- Ejemplo 1: Suma total de ventas
+  SELECT SUM(total) AS ventas_totales
+  FROM pedido;
+ 
+  -- Ejemplo 2: Suma por categoría
+  SELECT categoria, SUM(stock) AS stock_total
+  FROM producto
+  GROUP BY categoria;
+ 
+  -- Ejemplo 3: Suma condicional
+  SELECT SUM(total) AS ventas_online
+  FROM pedido
+  WHERE canal = 'online';
+
+Categoria: Funciones de agregación | MAX
+  -- MAX: Devuelve el valor máximo de un conjunto
+  -- Sintaxis: MAX(columna)
+  -- 
+ 
+  -- Ejemplo 1: Precio más alto
+  SELECT MAX(precio) AS precio_maximo
+  FROM producto;
+ 
+  -- Ejemplo 2: Fecha del último pedido
+  SELECT MAX(fecha) AS ultimo_pedido
+  FROM pedido;
+ 
+  -- Ejemplo 3: Máximo por grupo
+  SELECT categoria, MAX(precio) AS mas_caro
+  FROM producto
+  GROUP BY categoria;
+
+Categoria: Funciones de agregación | MIN
+  -- MIN: Devuelve el valor mínimo de un conjunto
+  -- Sintaxis: MIN(columna)
+  -- 
+ 
+  -- Ejemplo 1: Precio más bajo
+  SELECT MIN(precio) AS precio_minimo
+  FROM producto;
+ 
+  -- Ejemplo 2: Fecha del primer pedido
+  SELECT MIN(fecha) AS primer_pedido
+  FROM pedido;
+ 
+  -- Ejemplo 3: Mínimo por grupo
+  SELECT categoria, MIN(precio) AS mas_barato
+  FROM producto
+  GROUP BY categoria;
+
+Categoria: Funciones de fecha y hora | ADDDATE
+  -- ADDDATE: Suma días o un intervalo a una fecha
+  -- Sintaxis: ADDDATE(fecha, dias) | ADDDATE(fecha, INTERVAL valor tipo)
+  -- 
+ 
+  -- Ejemplo 1: Sumar 10 días
+  SELECT ADDDATE('2024-01-01', 10) AS resultado;
+ 
+  -- Ejemplo 2: Sumar intervalo de meses
+  SELECT ADDDATE(fecha_inicio, INTERVAL 3 MONTH) AS fecha_fin
+  FROM proyecto;
+ 
+  -- Ejemplo 3: Fecha de vencimiento
+  SELECT ADDDATE(fecha_compra, 365) AS garantia_hasta
+  FROM venta;
+
+Categoria: Funciones de fecha y hora | ADDTIME
+  -- ADDTIME: Suma un tiempo a una fecha o hora
+  -- Sintaxis: ADDTIME(expr, tiempo)
+  -- 
+ 
+  -- Ejemplo 1: Añadir 2 horas a una hora
+  SELECT ADDTIME('10:00:00', '02:00:00') AS resultado;
+ 
+  -- Ejemplo 2: Añadir tiempo a datetime
+  SELECT ADDTIME(fecha_inicio, '01:30:00') AS fecha_fin
+  FROM evento;
+ 
+  -- Ejemplo 3: Sumar segundos
+  SELECT ADDTIME(hora_entrada, '00:00:30') AS con_margen
+  FROM registro;
+
+Categoria: Funciones de fecha y hora | SUBDATE
+  -- SUBDATE: Resta días o un intervalo a una fecha
+  -- Sintaxis: SUBDATE(fecha, dias) | SUBDATE(fecha, INTERVAL valor tipo)
+  -- 
+ 
+  -- Ejemplo 1: Restar 10 días
+  SELECT SUBDATE('2024-12-31', 10) AS resultado;
+ 
+  -- Ejemplo 2: Restar meses
+  SELECT SUBDATE(fecha_fin, INTERVAL 1 MONTH) AS inicio_estimado
+  FROM proyecto;
+ 
+  -- Ejemplo 3: Registros de los últimos 7 días
+  SELECT * FROM pedido
+  WHERE fecha >= SUBDATE(CURDATE(), 7);
+
+Categoria: Funciones de fecha y hora | SUBTIME
+  -- SUBTIME: Resta un tiempo a una fecha o hora
+  -- Sintaxis: SUBTIME(expr, tiempo)
+  -- 
+ 
+  -- Ejemplo 1: Restar 2 horas a una hora
+  SELECT SUBTIME('10:00:00', '02:00:00') AS resultado;
+ 
+  -- Ejemplo 2: Restar tiempo a datetime
+  SELECT SUBTIME(fecha_fin, '00:30:00') AS cierre_real
+  FROM turno;
+ 
+  -- Ejemplo 3: Hora de inicio real
+  SELECT SUBTIME(hora_registro, '00:05:00') AS hora_inicio
+  FROM evento;
+
+Categoria: Funciones de fecha y hora | TIMEDIFF
+  -- TIMEDIFF: Diferencia entre dos valores de tiempo
+  -- Sintaxis: TIMEDIFF(tiempo1, tiempo2)
+  -- 
+ 
+  -- Ejemplo 1: Diferencia entre dos horas
+  SELECT TIMEDIFF('18:00:00', '09:00:00') AS resultado;
+ 
+  -- Ejemplo 2: Duración de una sesión
+  SELECT TIMEDIFF(hora_salida, hora_entrada) AS duracion
+  FROM jornada;
+ 
+  -- Ejemplo 3: Tiempo restante hasta cierre
+  SELECT TIMEDIFF('22:00:00', CURTIME()) AS tiempo_restante;
+
+Categoria: Funciones de fecha y hora | TIMESTAMP
+  -- TIMESTAMP: Convierte o combina fecha y hora en un TIMESTAMP
+  -- Sintaxis: TIMESTAMP(fecha) | TIMESTAMP(fecha, hora)
+  -- 
+ 
+  -- Ejemplo 1: Convertir fecha a timestamp
+  SELECT TIMESTAMP('2024-12-25') AS resultado;
+ 
+  -- Ejemplo 2: Combinar fecha y hora
+  SELECT TIMESTAMP('2024-12-25', '14:30:00') AS resultado;
+ 
+  -- Ejemplo 3: Inicio de jornada como timestamp
+  SELECT TIMESTAMP(CURDATE(), '09:00:00') AS inicio_jornada;
+
+Categoria: Funciones de fecha y hora | SYSDATE
+  -- SYSDATE: Devuelve la fecha y hora en el momento exacto de ejecución
+  -- Sintaxis: SYSDATE()
+  -- 
+ 
+  -- Ejemplo 1: Fecha y hora del sistema
+  SELECT SYSDATE() AS fecha_sistema;
+ 
+  -- Ejemplo 2: Comparar con NOW()
+  SELECT NOW() AS now_val, SYSDATE() AS sysdate_val;
+ 
+  -- Ejemplo 3: Registrar tiempo exacto de operación
+  INSERT INTO log (mensaje, fecha)
+  VALUES ('operacion', SYSDATE());
+
+Categoria: Funciones de fecha y hora | FROM_DAYS
+  -- FROM_DAYS: Convierte un número de días en una fecha
+  -- Sintaxis: FROM_DAYS(N)
+  -- 
+ 
+  -- Ejemplo 1: Número de días a fecha
+  SELECT FROM_DAYS(738000) AS resultado;
+ 
+  -- Ejemplo 2: Complemento de TO_DAYS
+  SELECT FROM_DAYS(TO_DAYS('2024-06-15')) AS fecha_recuperada;
+ 
+  -- Ejemplo 3: Calcular fecha desde días acumulados
+  SELECT FROM_DAYS(dias_desde_origen) AS fecha
+  FROM calendario;
+
+Categoria: Funciones de fecha y hora | TO_DAYS
+  -- TO_DAYS: Convierte una fecha en número de días desde año 0
+  -- Sintaxis: TO_DAYS(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Fecha a número de días
+  SELECT TO_DAYS('2024-01-01') AS dias;
+ 
+  -- Ejemplo 2: Diferencia en días entre dos fechas
+  SELECT TO_DAYS('2024-12-31') - TO_DAYS('2024-01-01') AS diferencia;
+ 
+  -- Ejemplo 3: Ordenar por proximidad en días
+  SELECT nombre, TO_DAYS(fecha_evento) - TO_DAYS(NOW()) AS dias_restantes
+  FROM evento
+  ORDER BY dias_restantes;
+
+Categoria: Funciones de fecha y hora | MICROSECOND
+  -- MICROSECOND: Extrae los microsegundos de un valor de tiempo
+  -- Sintaxis: MICROSECOND(hora)
+  -- 
+ 
+  -- Ejemplo 1: Microsegundos del tiempo actual
+  SELECT MICROSECOND(NOW(6)) AS microsegundo;
+ 
+  -- Ejemplo 2: Microsegundos de un valor específico
+  SELECT MICROSECOND('12:30:45.123456') AS microsegundo;
+ 
+  -- Ejemplo 3: Comparar precisión de timestamps
+  SELECT MICROSECOND(ts_inicio) AS inicio_us
+  FROM proceso;
+
+Categoria: Funciones de fecha y hora | SEC_TO_TIME
+  -- SEC_TO_TIME: Convierte segundos a formato de tiempo HH:MM:SS
+  -- Sintaxis: SEC_TO_TIME(segundos)
+  -- 
+ 
+  -- Ejemplo 1: 3600 segundos a tiempo
+  SELECT SEC_TO_TIME(3600) AS resultado;
+ 
+  -- Ejemplo 2: Duración en formato legible
+  SELECT SEC_TO_TIME(duracion_segundos) AS duracion
+  FROM video;
+ 
+  -- Ejemplo 3: Tiempo restante
+  SELECT SEC_TO_TIME(tiempo_total - tiempo_usado) AS restante
+  FROM sesion;
+
+Categoria: Funciones de fecha y hora | TIME_TO_SEC
+  -- TIME_TO_SEC: Convierte un valor de tiempo a segundos
+  -- Sintaxis: TIME_TO_SEC(hora)
+  -- 
+ 
+  -- Ejemplo 1: Hora a segundos
+  SELECT TIME_TO_SEC('01:00:00') AS resultado;
+ 
+  -- Ejemplo 2: Duración en segundos
+  SELECT TIME_TO_SEC(TIMEDIFF(hora_fin, hora_inicio)) AS segundos
+  FROM jornada;
+ 
+  -- Ejemplo 3: Comparar tiempos como números
+  SELECT * FROM turno
+  WHERE TIME_TO_SEC(hora_entrada) < TIME_TO_SEC('09:00:00');
+
+Categoria: Funciones de fecha y hora | TIME_FORMAT
+  -- TIME_FORMAT: Formatea un valor de tiempo como cadena
+  -- Sintaxis: TIME_FORMAT(hora, formato)
+  -- 
+ 
+  -- Ejemplo 1: Hora en formato 12h con AM/PM
+  SELECT TIME_FORMAT(NOW(), '%h:%i %p') AS resultado;
+ 
+  -- Ejemplo 2: Solo horas y minutos
+  SELECT TIME_FORMAT(hora_entrada, '%H:%i') AS entrada
+  FROM jornada;
+ 
+  -- Ejemplo 3: Formato personalizado
+  SELECT TIME_FORMAT(duracion, '%H horas %i minutos') AS legible
+  FROM proceso;
+
+Categoria: Funciones de fecha y hora | PERIOD_ADD
+  -- PERIOD_ADD: Suma N meses a un período en formato YYYYMM
+  -- Sintaxis: PERIOD_ADD(periodo, meses)
+  -- 
+ 
+  -- Ejemplo 1: Sumar 5 meses a enero 2024
+  SELECT PERIOD_ADD(202401, 5) AS resultado;
+ 
+  -- Ejemplo 2: Período de vencimiento
+  SELECT PERIOD_ADD(DATE_FORMAT(fecha_inicio, '%Y%m'), 12) AS vencimiento
+  FROM suscripcion;
+ 
+  -- Ejemplo 3: Período actual más 3 meses
+  SELECT PERIOD_ADD(DATE_FORMAT(NOW(), '%Y%m'), 3) AS tres_meses_adelante;
+
+Categoria: Funciones de fecha y hora | PERIOD_DIFF
+  -- PERIOD_DIFF: Diferencia en meses entre dos períodos YYYYMM
+  -- Sintaxis: PERIOD_DIFF(periodo1, periodo2)
+  -- 
+ 
+  -- Ejemplo 1: Meses entre dos períodos
+  SELECT PERIOD_DIFF(202412, 202401) AS meses;
+ 
+  -- Ejemplo 2: Meses activo de suscripción
+  SELECT PERIOD_DIFF(
+    DATE_FORMAT(NOW(), '%Y%m'),
+    DATE_FORMAT(fecha_inicio, '%Y%m')
+  ) AS meses_activo
+  FROM suscripcion;
+ 
+  -- Ejemplo 3: Duración de contrato en meses
+  SELECT PERIOD_DIFF(
+    DATE_FORMAT(fecha_fin, '%Y%m'),
+    DATE_FORMAT(fecha_inicio, '%Y%m')
+  ) AS duracion_meses
+  FROM contrato;
+
+Categoria: Funciones de fecha y hora | WEEKDAY
+  -- WEEKDAY: Día de la semana (0=Lunes, 6=Domingo)
+  -- Sintaxis: WEEKDAY(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Día de la semana de hoy
+  SELECT WEEKDAY(NOW()) AS dia_semana;
+ 
+  -- Ejemplo 2: Solo días laborables (0-4)
+  SELECT * FROM pedido
+  WHERE WEEKDAY(fecha) BETWEEN 0 AND 4;
+ 
+  -- Ejemplo 3: Solo fin de semana (5-6)
+  SELECT * FROM pedido
+  WHERE WEEKDAY(fecha) IN (5, 6);
+
+Categoria: Funciones de fecha y hora | WEEKOFYEAR
+  -- WEEKOFYEAR: Número de semana ISO del año (1-53)
+  -- Sintaxis: WEEKOFYEAR(fecha)
+  -- 
+ 
+  -- Ejemplo 1: Semana ISO actual
+  SELECT WEEKOFYEAR(NOW()) AS semana_iso;
+ 
+  -- Ejemplo 2: Ventas por semana ISO
+  SELECT WEEKOFYEAR(fecha), SUM(total)
+  FROM pedido
+  GROUP BY WEEKOFYEAR(fecha);
+ 
+  -- Ejemplo 3: Registros de la semana 10
+  SELECT * FROM pedido
+  WHERE WEEKOFYEAR(fecha) = 10;
+
+Categoria: Funciones de fecha y hora | YEARWEEK
+  -- YEARWEEK: Devuelve el año y semana de una fecha como YYYYWW
+  -- Sintaxis: YEARWEEK(fecha) | YEARWEEK(fecha, modo)
+  -- 
+ 
+  -- Ejemplo 1: Año y semana actual
+  SELECT YEARWEEK(NOW()) AS anio_semana;
+ 
+  -- Ejemplo 2: Agrupar por semana del año
+  SELECT YEARWEEK(fecha), COUNT(*) AS pedidos
+  FROM pedido
+  GROUP BY YEARWEEK(fecha);
+ 
+  -- Ejemplo 3: Semana específica de un año
+  SELECT * FROM pedido
+  WHERE YEARWEEK(fecha) = 202415;
+
+Categoria: Funciones numéricas | BIN
+  -- BIN: Convierte un número decimal a su representación binaria
+  -- Sintaxis: BIN(numero)
+  -- 
+ 
+  -- Ejemplo 1: Decimal a binario
+  SELECT BIN(10) AS resultado;
+ 
+  -- Ejemplo 2: Ver permisos en binario
+  SELECT BIN(permisos) AS permisos_bin
+  FROM usuario;
+ 
+  -- Ejemplo 3: Verificar bit activo
+  SELECT * FROM configuracion
+  WHERE BIN(flags) LIKE '%1%';
+
+Categoria: Funciones numéricas | CONV
+  -- CONV: Convierte un número entre distintas bases
+  -- Sintaxis: CONV(numero, base_origen, base_destino)
+  -- 
+ 
+  -- Ejemplo 1: Decimal a hexadecimal
+  SELECT CONV(255, 10, 16) AS resultado;
+ 
+  -- Ejemplo 2: Binario a decimal
+  SELECT CONV('1010', 2, 10) AS resultado;
+ 
+  -- Ejemplo 3: Hexadecimal a binario
+  SELECT CONV('FF', 16, 2) AS resultado;
+
+Categoria: Funciones de control de flujo | ISNULL
+  -- ISNULL: Devuelve 1 si el valor es NULL, 0 si no lo es
+  -- Sintaxis: ISNULL(expr)
+  -- 
+ 
+  -- Ejemplo 1: Verificar si es NULL
+  SELECT ISNULL(NULL) AS resultado;
+ 
+  -- Ejemplo 2: Verificar columna
+  SELECT nombre, ISNULL(telefono) AS sin_telefono
+  FROM cliente;
+ 
+  -- Ejemplo 3: Filtrar registros con NULL
+  SELECT * FROM cliente
+  WHERE ISNULL(email) = 1;
+
+Categoria: Funciones del sistema | SESSION_USER
+  -- SESSION_USER: Devuelve el usuario y host de la sesión actual
+  -- Sintaxis: SESSION_USER()
+  -- 
+ 
+  -- Ejemplo 1: Usuario de la sesión
+  SELECT SESSION_USER() AS usuario_sesion;
+ 
+  -- Ejemplo 2: Comparar con USER()
+  SELECT USER() AS user_val, SESSION_USER() AS session_val;
+ 
+  -- Ejemplo 3: Registrar usuario en auditoría
+  INSERT INTO auditoria (usuario, accion, fecha)
+  VALUES (SESSION_USER(), 'login', NOW());
+
+Categoria: Funciones del sistema | SYSTEM_USER
+  -- SYSTEM_USER: Alias de USER(), devuelve usuario y host actuales
+  -- Sintaxis: SYSTEM_USER()
+  -- 
+ 
+  -- Ejemplo 1: Usuario del sistema
+  SELECT SYSTEM_USER() AS usuario_sistema;
+ 
+  -- Ejemplo 2: Comparar las tres funciones de usuario
+  SELECT USER(), SESSION_USER(), SYSTEM_USER();
+ 
+  -- Ejemplo 3: Log de acceso con usuario del sistema
+  INSERT INTO log_acceso (usuario, fecha)
+  VALUES (SYSTEM_USER(), NOW());
